@@ -11,7 +11,7 @@ const NextImage: React.FC<
   > &
     StaticImageData
 > = ({ src, alt, width, height, blurDataURL, placeholder, ...props }) => {
-  if (!width || !height || !placeholder) {
+  if (!width || !height || !blurDataURL) {
     // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt={alt} width={width} height={height} {...props} />;
   }

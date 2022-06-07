@@ -1,4 +1,4 @@
-# Next-MDX-Blog
+# Nextjs-MDX-Blog
 
 - mdx(2.0)
 - mdx-bundler (with `next/image`)
