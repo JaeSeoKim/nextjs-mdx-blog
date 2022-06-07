@@ -43,6 +43,7 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <article>
         <Component
           components={{
+            // @ts-ignore
             img: MyImage,
           }}
         />
