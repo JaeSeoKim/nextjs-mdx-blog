@@ -4,14 +4,14 @@ import { getPostBySlug, getAllPosts } from "../../lib/utils/blogPostsApi";
 import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from "next";
 import Image, { StaticImageData } from "next/image";
 
-const MyImage: React.FC<
+const NextImage: React.FC<
   React.DetailedHTMLProps<
     React.ImgHTMLAttributes<HTMLImageElement>,
     HTMLImageElement
   > &
     StaticImageData
 > = ({ src, alt, width, height, blurDataURL, placeholder, ...props }) => {
-  if (!width && !height) {
+  if (!width || !height || !placeholder) {
     // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt={alt} width={width} height={height} {...props} />;
   }
@@ -44,7 +44,7 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <Component
           components={{
             // @ts-ignore
-            img: MyImage,
+            img: NextImage,
           }}
         />
       </article>

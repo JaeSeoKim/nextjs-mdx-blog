@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { remarkMdxImages } from "../plugins/remarkMdxImagesWithPlaciceholder";
 
 export const ROOT = process.cwd();
-export const POSTS_PATH = path.join(process.cwd(), "content/posts");
+export const POSTS_PATH = path.join(process.cwd(), "_content/posts");
 export const POSTS_GLOB = "**/*.{md,mdx}";
 
 export interface PostFrontMatterType {

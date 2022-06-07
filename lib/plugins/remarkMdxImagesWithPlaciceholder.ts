@@ -1,3 +1,9 @@
+/**
+ * Base Source from https://github.com/remcohaszing/remark-mdx-images/blob/main/src/index.ts
+ *
+ * @license MIT ©ksoichiro
+ */
+
 import { MDXJSEsm, MDXJsxTextElement } from "hast-util-to-estree";
 import { Image } from "mdast";
 import { Plugin } from "unified";
