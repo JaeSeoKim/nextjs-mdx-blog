@@ -29,14 +29,14 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
   async (ast, file, next) => {
     const imports: Omit<MDXJSEsm, "value">[] = [];
     const imported = new Map<string, string>();
-    const jobList: Promise<any>[] = [];
+    const visitImage: Promise<any>[] = [];
 
     visit<Image>(
       // @ts-ignore
       ast,
       "image",
       (node, index, parent) => {
-        jobList.push(
+        visitImage.push(
           (async () => {
             let { alt = null, title, url } = node;
             if (urlPattern.test(url)) {
@@ -143,7 +143,7 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
         );
       }
     );
-    await Promise.all(jobList);
+    await Promise.all(visitImage);
     (ast as Parent).children.unshift(...imports);
     next();
   };

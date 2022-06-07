@@ -5,7 +5,6 @@ import path from "path";
 import { bundleMDX } from "mdx-bundler";
 import remarkGfm from "remark-gfm";
 import { remarkMdxImages } from "../plugins/remarkMdxImagesWithPlaciceholder";
-import plaiceholderPlugin from "../plugins/esbuild-plugin-plaiceholder";
 
 export const ROOT = process.cwd();
 export const POSTS_PATH = path.join(process.cwd(), "content/posts");
@@ -68,7 +67,7 @@ export async function getPostBySlug(slug: string) {
       options.bundle = true;
       options.minify = true;
       options.format = "iife";
-      options.plugins = [...(options.plugins ?? []), plaiceholderPlugin()];
+      options.plugins = [...(options.plugins ?? [])];
       options.loader = {
         ...(options.loader ?? {}),
         ".ts": "ts",
