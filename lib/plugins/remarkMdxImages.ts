@@ -10,7 +10,8 @@ import { Plugin } from "unified";
 import { Parent } from "unist";
 import { visit } from "unist-util-visit";
 import path from "path";
-import { getPlaiceholder } from "plaiceholder";
+import sharp from "sharp";
+import { imageSize } from "image-size";
 
 export interface RemarkMdxImagesOptions {
   /**
@@ -26,6 +27,39 @@ export interface RemarkMdxImagesOptions {
 
 const urlPattern = /^(https?:)?\//;
 const relativePathPattern = /\.\.?\//;
+
+const optimizeImage = async (src: string, options = { size: 4 }) => {
+  const sizeMin = 4;
+  const sizeMax = 64;
+
+  const isSizeValid = sizeMin <= options.size && options.size <= sizeMax;
+  !isSizeValid &&
+    console.error(
+      ["Please enter a `size` value between", sizeMin, "and", sizeMax].join(" ")
+    );
+
+  const { height, width } = imageSize(src);
+
+  const size = isSizeValid ? options.size : 4;
+
+  const pipeline = sharp(src).resize(size, size, {
+    fit: "inside",
+  });
+
+  const { data, info } = await pipeline
+    .clone()
+    .normalise()
+    .modulate({ saturation: 1.2, brightness: 1 })
+    .toBuffer({ resolveWithObject: true });
+
+  return {
+    base64: `data:image/${info.format};base64,${data.toString("base64")}`,
+    size: {
+      width: width,
+      height: height,
+    },
+  };
+};
 
 /**
  * A Remark plugin for converting Markdown images to MDX images using imports for the image source.
@@ -45,12 +79,17 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
         visitImage.push(
           (async () => {
             let { alt = null, title, url } = node;
+            let image: Buffer | string = url;
+
             if (urlPattern.test(url)) {
               return;
             }
+
             if (!relativePathPattern.test(url) && resolve) {
-              url = `./${url}`;
+              image = `./${url}`;
             }
+
+            image = path.join(file.dirname!, image);
 
             let name = imported.get(url);
             if (!name) {
@@ -83,15 +122,7 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
               });
               imported.set(url, name);
             }
-            const imageData = await getPlaiceholder(
-              (() => {
-                const { name, ext } = path.parse(url);
-                return "/" + name + ext;
-              })(),
-              {
-                publicDir: path.dirname(file.path),
-              }
-            );
+            const imageData = await optimizeImage(image);
 
             const textElement: MDXJsxTextElement = {
               type: "mdxJsxTextElement",
@@ -102,12 +133,12 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
                 {
                   type: "mdxJsxAttribute",
                   name: "width",
-                  value: imageData.img.width,
+                  value: imageData.size.width,
                 },
                 {
                   type: "mdxJsxAttribute",
                   name: "height",
-                  value: imageData.img.height,
+                  value: imageData.size.height,
                 },
                 {
                   type: "mdxJsxAttribute",

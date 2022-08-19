@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import path from "path";
 import { bundleMDX } from "mdx-bundler";
 import remarkGfm from "remark-gfm";
-import { remarkMdxImages } from "../plugins/remarkMdxImagesWithPlaciceholder";
+import { remarkMdxImages } from "../plugins/remarkMdxImages";
 import remarkHeadingId from "remark-heading-id";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";

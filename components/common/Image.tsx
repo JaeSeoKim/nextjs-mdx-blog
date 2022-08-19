@@ -29,8 +29,8 @@ const Image: React.FC<
       StaticImageData;
 
   if (!width || !height || !blurDataURL) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         ref={imageRef}
         src={src}
@@ -50,7 +50,6 @@ const Image: React.FC<
       height={height}
       placeholder="blur"
       blurDataURL={blurDataURL}
-      layout="responsive"
       {...props}
     />
   );
