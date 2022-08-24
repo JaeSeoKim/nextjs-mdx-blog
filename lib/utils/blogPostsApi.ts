@@ -11,7 +11,8 @@ import rehypeSlug from "rehype-slug";
 
 export const ROOT = process.cwd();
 export const POSTS_PATH = path.join(process.cwd(), "_content/posts");
-export const POSTS_GLOB = "**/*.{md,mdx}";
+export const POSTS_GLOB =
+  "**/[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]*.{md,mdx}";
 
 export interface PostFrontMatterType {
   title: string;
@@ -26,8 +27,15 @@ export async function getAllPosts() {
   });
   return paths.map(filePath => {
     const rawData = fs.readFileSync(path.join(POSTS_PATH, filePath));
+
+    const dateRegex = /[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]/;
+    const date = filePath.match(dateRegex)![0];
+
     return {
-      frontmatter: matter(rawData).data as PostFrontMatterType,
+      frontmatter: {
+        ...matter(rawData).data,
+        date: date,
+      } as PostFrontMatterType,
       slug: filePath.replace(/\.mdx?$/, ""),
     };
   });

@@ -1,26 +1,9 @@
-import React, {
-  DetailedHTMLProps,
-  ImgHTMLAttributes,
-  useEffect,
-  useRef,
-} from "react";
-import { default as NextImage, StaticImageData } from "next/image";
-import mediumZoom from "medium-zoom";
+import React, { DetailedHTMLProps, ImgHTMLAttributes } from "react";
+import NextImage, { StaticImageData } from "next/image";
 
 const Image: React.FC<
   DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
 > = ({ ..._props }) => {
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    if (!imageRef.current) return;
-    const zoom = mediumZoom(imageRef.current);
-
-    return () => {
-      zoom.detach();
-    };
-  });
-
   const { src, width, height, blurDataURL, placeholder, alt, ...props } =
     _props as React.DetailedHTMLProps<
       React.ImgHTMLAttributes<HTMLImageElement>,
@@ -31,23 +14,16 @@ const Image: React.FC<
   if (!width || !height || !blurDataURL) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img
-        ref={imageRef}
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        {...props}
-      />
+      <img src={src} alt={alt} width={width} height={height} {...props} />
     );
   }
   return (
     <NextImage
-      ref={imageRef}
       src={src!}
       alt={alt}
       width={width}
       height={height}
+      layout={"intrinsic"}
       placeholder="blur"
       blurDataURL={blurDataURL}
       {...props}
