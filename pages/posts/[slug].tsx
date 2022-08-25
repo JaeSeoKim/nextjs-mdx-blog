@@ -15,7 +15,7 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     <>
       <h1>{frontmatter.title}</h1>
       <p>{frontmatter.date}</p>
-      <article className={styles.article}>
+      <article className={"prose lg:prose-xl"}>
         <Component components={markdownComponents} />
       </article>
     </>

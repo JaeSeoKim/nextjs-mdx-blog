@@ -23,6 +23,8 @@
   },
   "devDependencies": {
     "@csstools/postcss-sass": "^5.0.1",
+    "@microflash/remark-figure-caption": "^1.0.0",
+    "@tailwindcss/typography": "^0.5.4",
     "@types/glob": "^7.2.0",
     "@types/node": "18.7.13",
     "@types/react": "18.0.17",

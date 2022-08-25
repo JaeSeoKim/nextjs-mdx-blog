@@ -1,11 +1,4 @@
-import {
-  CSSProperties,
-  ElementType,
-  useId,
-  useInsertionEffect,
-  useRef,
-  useState,
-} from "react";
+import { CSSProperties, ElementType, useRef, useState } from "react";
 import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
 
 type WithMediumZoomOptionType<C extends ElementType> = {
@@ -30,7 +23,6 @@ export default function WithMediumZoom<C extends ElementType, _Props>(
   const MediumZoom: React.FC<_Props> = ({ ...props }) => {
     const Container = as;
 
-    const id = useId();
     const containerRef = useRef<HTMLDivElement>(null);
     const [isOpened, setIsOpened] = useState(false);
     const shouldReduceMotion = usePrefersReducedMotion();
@@ -38,40 +30,6 @@ export default function WithMediumZoom<C extends ElementType, _Props>(
     const animationDuration = shouldReduceMotion
       ? 0
       : options?.animationDuration || 300;
-
-    useInsertionEffect(() => {
-      const $style = document.createElement("style");
-      document.head.appendChild($style);
-
-      if ($style.sheet) {
-        $style.sheet.insertRule(
-          `
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: ${backgroundOpacity};
-          }
-        }
-        `.trim()
-        );
-        $style.sheet.insertRule(
-          `
-        [data-medium-zoom-id="${id}"] {
-          animation-duration: ${
-            animationDuration === 0 ? 0 : animationDuration / 2
-          }ms;
-          animation-name: fadeIn;
-        }
-        `.trim()
-        );
-      }
-
-      return () => {
-        document.head.removeChild($style);
-      };
-    }, [backgroundOpacity, animationDuration]);
 
     const handleImageZoom = () => {
       if (!containerRef.current || isOpened) return;
@@ -116,6 +74,11 @@ export default function WithMediumZoom<C extends ElementType, _Props>(
     };
 
     const styles: CSSProperties = {
+      border: 0,
+      margin: 0,
+      padding: 0,
+      boxSizing: "border-box",
+      maxWidth: "100%",
       position: "relative",
       transition: `transform ${animationDuration}ms`,
       display: "block",
@@ -131,9 +94,9 @@ export default function WithMediumZoom<C extends ElementType, _Props>(
       <>
         {isOpened ? (
           <Container
-            data-medium-zoom-id={id}
             style={{
               backgroundColor: backgroundColor,
+              opacity: backgroundOpacity,
               position: "fixed",
               zIndex: 40,
               top: 0,
