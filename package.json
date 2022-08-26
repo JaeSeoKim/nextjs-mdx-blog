@@ -42,6 +42,7 @@
     "image-size": "^1.0.2",
     "is-ci": "^3.0.1",
     "lint-staged": "^13.0.3",
+    "mdast-util-mdx": "^2.0.0",
     "postcss": "^8.4.16",
     "postcss-import": "^14.1.0",
     "prettier": "^2.7.1",

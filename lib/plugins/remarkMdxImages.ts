@@ -4,7 +4,7 @@
  * @license MIT ©ksoichiro
  */
 
-import { MDXJSEsm, MDXJsxTextElement } from "hast-util-to-estree";
+import { MdxjsEsm, MdxJsxTextElement } from "mdast-util-mdx";
 import { Image } from "mdast";
 import { Plugin } from "unified";
 import { Parent } from "unist";
@@ -67,7 +67,7 @@ const optimizeImage = async (src: string, options = { size: 4 }) => {
 export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
   ({ resolve = true } = {}) =>
   async (ast, file, next) => {
-    const imports: Omit<MDXJSEsm, "value">[] = [];
+    const imports: Omit<MdxjsEsm, "value">[] = [];
     const imported = new Map<string, string>();
     const visitImage: Promise<any>[] = [];
 
@@ -124,7 +124,7 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
             }
             const imageData = await optimizeImage(image);
 
-            const textElement: MDXJsxTextElement = {
+            const textElement: MdxJsxTextElement = {
               type: "mdxJsxTextElement",
               name: "img",
               children: [],
@@ -133,12 +133,12 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
                 {
                   type: "mdxJsxAttribute",
                   name: "width",
-                  value: imageData.size.width,
+                  value: imageData.size.width?.toString(),
                 },
                 {
                   type: "mdxJsxAttribute",
                   name: "height",
-                  value: imageData.size.height,
+                  value: imageData.size.height?.toString(),
                 },
                 {
                   type: "mdxJsxAttribute",
