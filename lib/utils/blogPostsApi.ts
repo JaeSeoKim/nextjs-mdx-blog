@@ -5,9 +5,10 @@ import path from "path";
 import { bundleMDX } from "mdx-bundler";
 import remarkGfm from "remark-gfm";
 import { remarkMdxImages } from "../plugins/remarkMdxImages";
-import remarkHeadingId from "remark-heading-id";
-import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import theme from "shiki/themes/one-dark-pro.json";
+import { remarkCodeHike } from "@code-hike/mdx";
 
 export const ROOT = process.cwd();
 export const POSTS_PATH = path.join(process.cwd(), "_content/posts");
@@ -42,8 +43,21 @@ export async function getAllPosts() {
 }
 
 export async function getPostBySlug(slug: string) {
-  const remarkPlugins = [remarkGfm, remarkMdxImages, remarkHeadingId];
-  const rehypelugins = [rehypeHighlight, rehypeSlug];
+  const remarkPlugins = [
+    remarkGfm,
+    remarkMdxImages,
+    [
+      remarkCodeHike,
+      {
+        theme,
+        lineNumbers: true,
+        showCopyButton: true,
+        skipLanguages: [],
+        autoImport: false,
+      },
+    ],
+  ];
+  const rehypelugins = [rehypeSlug, rehypeAutolinkHeadings];
 
   if (process.platform === "win32") {
     process.env.ESBUILD_BINARY_PATH = path.join(
@@ -100,6 +114,7 @@ export async function getPostBySlug(slug: string) {
       // this is the recommended way to add custom remark/rehype plugins:
       // The syntax might look weird, but it protects you in case we add/remove
       // plugins in the future.
+      // @ts-ignore
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
         ...remarkPlugins,
