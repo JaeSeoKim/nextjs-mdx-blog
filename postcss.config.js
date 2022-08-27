@@ -2,7 +2,6 @@
 // https://tailwindcss.com/docs/using-with-preprocessors
 module.exports = {
   plugins: {
-    "@csstools/postcss-sass": {},
     "postcss-import": {},
     "tailwindcss/nesting": {},
     tailwindcss: {},

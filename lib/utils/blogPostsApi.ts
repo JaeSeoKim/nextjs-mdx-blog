@@ -5,6 +5,7 @@ import path from "path";
 import { bundleMDX } from "mdx-bundler";
 import remarkGfm from "remark-gfm";
 import { remarkMdxImages } from "../plugins/remarkMdxImages";
+import remarkA11yEmoji from "@fec/remark-a11y-emoji/dist/remark-a11y-emoji.umd";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import theme from "shiki/themes/one-dark-pro.json";
@@ -19,7 +20,6 @@ export interface PostFrontMatterType {
   title: string;
   date: string;
   tags: string[];
-  draft: boolean;
 }
 
 export async function getAllPosts() {
@@ -45,6 +45,7 @@ export async function getAllPosts() {
 export async function getPostBySlug(slug: string) {
   const remarkPlugins = [
     remarkGfm,
+    remarkA11yEmoji,
     remarkMdxImages,
     [
       remarkCodeHike,

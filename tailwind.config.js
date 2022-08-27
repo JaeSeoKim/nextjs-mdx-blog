@@ -1,5 +1,4 @@
 const typographyStyles = require("@tailwindcss/typography/src/styles");
-
 const typographyTypes = ["DEFAULT", "base", "xl", "2xl", "sm"];
 const typographyMap = {
   caption: '[data-tailwind-camouflage="figure"]',
@@ -10,13 +9,14 @@ const typographyMap = {
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
-    "./content/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./content/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
-      typography: (() => {
-        const styles = {};
+      typography: (theme => {
+        const styles = { DEFAULT: {} };
         typographyTypes.forEach(type => {
           const css = {};
           Object.entries(typographyMap).forEach(([key, value]) => {
@@ -24,7 +24,7 @@ module.exports = {
               css[value] = typographyStyles[type].css[0][key];
             }
           });
-          styles[type] = { css };
+          styles[type] = { css, ...styles[type] };
         });
         return styles;
       })(),

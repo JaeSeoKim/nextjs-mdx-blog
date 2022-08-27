@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.prose {
+  [data-tailwind-camouflage="figure"] > *:first-child {
+    @apply mx-auto #{!important};
+  }
+
+  [data-tailwind-camouflage="figcaption"] {
+    @apply block text-center;
+  }
+}
