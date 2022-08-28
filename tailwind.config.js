@@ -30,5 +30,15 @@ module.exports = {
       })(),
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
+    function ({ addVariant }) {
+      addVariant(
+        "supports-backdrop-blur",
+        "@supports (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))"
+      );
+      addVariant("children", "& > *");
+    },
+  ],
 };
