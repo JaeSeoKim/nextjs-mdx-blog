@@ -21,7 +21,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
         {posts.map(({ slug, frontmatter }) => (
           <Link href={`/posts/${slug}`} key={slug}>
-            <a className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
+            <a className="mt-6 w-96 rounded-xl border p-6 text-left">
               <h3 className="text-2xl font-bold">{frontmatter.title}</h3>
               <p className="mt-4 text-xl">{frontmatter.date}</p>
             </a>
