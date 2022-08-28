@@ -12,12 +12,12 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col max-w-full">
+      <div className="flex flex-col w-full max-w-screen-md px-2 sm:px-0">
         <h1>{frontmatter.title}</h1>
         <p>{frontmatter.date}</p>
         <article
           className={
-            "prose prose-sky prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-full"
+            "prose prose-sm md:prose-base lg:prose-lg dark:prose-invert w-full max-w-none"
           }
         >
           <Component components={markdownComponents} />

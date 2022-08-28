@@ -75,7 +75,7 @@ export default function WithMediumZoom<C extends ElementType, _Props>(
 
     const styles: CSSProperties = {
       border: 0,
-      margin: 0,
+      margin: "0 auto 0 auto",
       padding: 0,
       boxSizing: "border-box",
       maxWidth: "100%",

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  @apply bg-white;
+}
+html.dark {
+  @apply bg-neutral-900;
+}
+
 .prose {
   [data-tailwind-camouflage="figure"] > *:first-child {
     @apply mx-auto #{!important};
