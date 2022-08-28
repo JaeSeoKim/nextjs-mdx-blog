@@ -11,16 +11,18 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   const Component = useMemo(() => getMDXComponent(code), [code]);
 
   return (
-    <div className="flex flex-col items-center">
-      <h1>{frontmatter.title}</h1>
-      <p>{frontmatter.date}</p>
-      <article
-        className={
-          "prose prose-sky prose-sm md:prose-base lg:prose-lg dark:prose-invert"
-        }
-      >
-        <Component components={markdownComponents} />
-      </article>
+    <div className="flex justify-center">
+      <div className="flex flex-col max-w-full">
+        <h1>{frontmatter.title}</h1>
+        <p>{frontmatter.date}</p>
+        <article
+          className={
+            "prose prose-sky prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-full"
+          }
+        >
+          <Component components={markdownComponents} />
+        </article>
+      </div>
     </div>
   );
 };
