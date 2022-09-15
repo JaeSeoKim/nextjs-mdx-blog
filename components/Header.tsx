@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, Transition } from "framer-motion";
 import classNames from "classnames";
-import usePrefersReducedMotion from "../lib/hooks/usePrefersReducedMotion";
+import useReducedMotion from "../lib/hooks/useReducedMotion";
 
 export type NavProps = {};
 
 const Header: React.FC<NavProps> = () => {
   const headerRef = useRef<HTMLElement>(null);
   const prevWindowScrollY = useRef(0);
-  const shouldReduceMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useReducedMotion();
   console.log(shouldReduceMotion);
   const [animation, setAnimation] = useState<"visible" | "hidden">("visible");
 

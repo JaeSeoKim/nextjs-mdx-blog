@@ -1,5 +1,5 @@
 import { CSSProperties, ElementType, useRef, useState } from "react";
-import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
+import usePrefersReducedMotion from "../hooks/useReducedMotion";
 
 type WithMediumZoomOptionType<C extends ElementType> = {
   as?: C;
@@ -55,10 +55,6 @@ export default function WithMediumZoom<C extends ElementType, _Props>(
         containerRef.current.style.transform = `translate(${wPrim - cL}px,${
           hPrim - cT
         }px) scale(${(window.innerHeight * zoomPerc) / clientHeight})`;
-      }
-
-      if (clientWidth <= clientHeight) {
-      } else {
       }
 
       window.document.addEventListener("scroll", closeWrapper, { once: true });
