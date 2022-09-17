@@ -9,7 +9,7 @@ import Document, {
 
 class MyDocument extends Document {
   static async getInitialProps(
-    ctx: DocumentContext
+    ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
 
@@ -19,7 +19,27 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="ko">
-        <Head></Head>
+        <Head>
+          <script>{`
+            var customViewportCorrectionVariable = 'vh';
+
+            function setViewportProperty(doc) {
+              var prevClientHeight;
+              var customVar = '--' + ( customViewportCorrectionVariable || 'vh' );
+              function handleResize() {
+                var clientHeight = doc.clientHeight;
+                if (clientHeight === prevClientHeight) return;
+                requestAnimationFrame(function updateViewportHeight(){
+                  doc.style.setProperty(customVar, (clientHeight * 0.01) + 'px');
+                  prevClientHeight = clientHeight;
+                });
+              }
+              handleResize();
+              return handleResize;
+            }
+            window.addEventListener('resize', setViewportProperty(document.documentElement));
+          `}</script>
+        </Head>
         <body style={{ position: "relative" }}>
           <Main />
           <NextScript />
