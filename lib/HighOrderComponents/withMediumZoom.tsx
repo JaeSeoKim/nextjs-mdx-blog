@@ -1,7 +1,7 @@
 import { CSSProperties, ElementType, useRef, useState } from "react";
 import usePrefersReducedMotion from "../hooks/useReducedMotion";
 
-type WithMediumZoomOptionType<C extends ElementType> = {
+type withMediumZoomOptionType<C extends ElementType> = {
   as?: C;
   zoomPercentage?: number;
   backgroundColor?: string;
@@ -9,9 +9,9 @@ type WithMediumZoomOptionType<C extends ElementType> = {
   animationDuration?: number;
 };
 
-export default function WithMediumZoom<C extends ElementType, _Props>(
+export default function withMediumZoom<C extends ElementType, _Props>(
   Component: React.FC<_Props>,
-  options?: WithMediumZoomOptionType<C>
+  options?: withMediumZoomOptionType<C>,
 ) {
   const {
     as = "span",

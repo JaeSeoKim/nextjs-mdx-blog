@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Image from "next/image";
 import { PropsWithChildren } from "react";
 import Header from "./Header";
@@ -6,7 +7,12 @@ export type LayoutProps = PropsWithChildren<{}>;
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div
+      className={classNames(
+        "relative flex flex-col min-h-screen",
+        "text-black dark:text-white",
+      )}
+    >
       <Header />
       <main className="flex flex-col grow">{children}</main>
       <footer className="flex h-24 w-full items-center justify-center border-t">

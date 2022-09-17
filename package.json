@@ -21,7 +21,8 @@
     "next-remote-watch": "^1.0.0",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.4.0"
   },
   "devDependencies": {
     "@fec/remark-a11y-emoji": "^3.1.0",
@@ -48,6 +49,7 @@
     "mdast-util-mdx": "^2.0.0",
     "plaiceholder": "^2.5.0",
     "postcss": "^8.4.16",
+    "postcss-100vh-fix": "^1.0.2",
     "postcss-import": "^15.0.0",
     "prettier": "^2.7.1",
     "rehype-accessible-emojis": "^0.3.2",

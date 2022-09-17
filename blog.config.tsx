@@ -21,27 +21,15 @@ export const navbar: navbarType = {
       label: "about",
       href: "/about",
     },
-    {
-      label: "about",
-      href: "/about",
-    },
-    {
-      label: "about",
-      href: "/about",
-    },
-    {
-      label: "about",
-      href: "/about",
-    },
   ],
 };
 
-type navbarType = {
+export type navbarType = {
   title: ReactElement;
   items: navBarItem[];
 };
 
-type navBarItem = {
+export type navBarItem = {
   label: string;
   href: LinkProps["href"];
 };

@@ -1,6 +1,6 @@
 import { CH } from "@code-hike/mdx/components";
-import WithMediumZoom from "../lib/HighOrderComponents/WithMediumZoom";
-import WithImageFigureCaption from "../lib/HighOrderComponents/WithImageFigureCaption";
+import WithMediumZoom from "../lib/HighOrderComponents/withMediumZoom";
+import WithImageFigureCaption from "../lib/HighOrderComponents/withImageFigureCaption";
 import Image from "./Image";
 
 const markdownComponents: import("mdx/types").MDXComponents = {
@@ -8,7 +8,7 @@ const markdownComponents: import("mdx/types").MDXComponents = {
     WithMediumZoom(Image, {
       backgroundColor: "black",
       backgroundOpacity: 0.9,
-    })
+    }),
   ),
   CH,
 };

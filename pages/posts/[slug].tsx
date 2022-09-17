@@ -12,7 +12,7 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col w-full max-w-screen-md px-2 sm:px-0">
+      <div className="flex flex-col w-full max-w-screen-md px-2">
         <h1>{frontmatter.title}</h1>
         <p>{frontmatter.date}</p>
         <article
