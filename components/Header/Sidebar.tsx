@@ -19,7 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ id, items, state, setState }) => {
   return (
     <div
       className={classNames(
-        "absolute top-0 left-0 pt-14 -z-[1]",
+        "absolute top-0 left-0 -z-[1]",
         "md:hidden flex w-full min-h-screen max-h-screen",
       )}
     >
@@ -47,13 +47,13 @@ const Sidebar: React.FC<SidebarProps> = ({ id, items, state, setState }) => {
           }
         }}
         className={classNames(
-          "flex flex-grow-[3]",
+          "flex flex-grow-[3] pt-14",
           "border border-neutral-900/10 dark:border-neutral-50/[0.06]",
           "bg-white/90 dark:bg-neutral-900/90",
           "backdrop-blur supports-backdrop-blur:bg-white/60 supports-backdrop-blur:dark:bg-neutral-900/60",
         )}
       >
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full overflow-y-auto">
           <div
             className={classNames(
               "flex justify-center",
