@@ -5,6 +5,7 @@ import React from "react";
 import { NavState } from ".";
 import { navBarItem } from "../../blog.config";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
+import { blurBg, borderColor, hoverBgColor } from "../../styles/common.styles";
 import DarkModeButton from "./DarkModeButton";
 
 export type SidebarProps = {
@@ -47,24 +48,27 @@ const Sidebar: React.FC<SidebarProps> = ({ id, items, state, setState }) => {
           }
         }}
         className={classNames(
-          "flex flex-grow-[3] pt-14",
-          "border border-neutral-900/10 dark:border-neutral-50/[0.06]",
-          "bg-white/90 dark:bg-neutral-900/90",
-          "backdrop-blur supports-backdrop-blur:bg-white/60 supports-backdrop-blur:dark:bg-neutral-900/60",
+          "flex flex-col grow-[3] mt-14",
+          "border",
+          borderColor,
+          "backdrop-blur",
+          blurBg,
         )}
       >
-        <div className="flex flex-col w-full h-full overflow-y-auto">
+        <div className="flex flex-col w-full overflow-y-auto">
           <div
             className={classNames(
               "flex justify-center",
-              "border-b border-neutral-900/10 dark:border-neutral-50/[0.06]",
+              "border-b",
+              borderColor,
             )}
           >
             <DarkModeButton
               className={classNames(
                 "m-2 p-2",
                 "text-xl font-semibold",
-                "rounded-full hover:bg-neutral-900/10 hover:dark:bg-neutral-100/10",
+                "rounded-full",
+                hoverBgColor,
               )}
             />
           </div>
@@ -78,8 +82,9 @@ const Sidebar: React.FC<SidebarProps> = ({ id, items, state, setState }) => {
                 className={classNames(
                   "p-4",
                   "text-xl font-semibold",
-                  "hover:bg-neutral-900/10 hover:dark:bg-neutral-100/10",
-                  "border-b border-neutral-900/10 dark:border-neutral-50/[0.06]",
+                  hoverBgColor,
+                  "border-b",
+                  borderColor,
                 )}
               >
                 {item.label}
@@ -89,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({ id, items, state, setState }) => {
         </div>
       </motion.nav>
       <div
-        className="flex flex-grow-[2]"
+        className="flex grow-[2]"
         role="button"
         aria-label="close sidebar"
         onClick={() => setState("closing")}

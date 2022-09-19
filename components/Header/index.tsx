@@ -6,6 +6,9 @@ import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { navbar } from "../../blog.config";
 import MenuIcon from "./MenuIcon";
 import SideBar from "./Sidebar";
+import { blurBg, borderColor, hoverBgColor } from "../../styles/common.styles";
+import SearchIcon from "./SearchIcon";
+import { useKBar } from "kbar";
 
 export type HeaderProps = {};
 export type NavState = "opened" | "closing" | "closed";
@@ -17,6 +20,7 @@ const Header: React.FC<HeaderProps> = () => {
   const shouldReduceMotion = useReducedMotion();
   const [animation, setAnimation] = useState<"visible" | "hidden">("visible");
   const [navState, setNavState] = useState<NavState>("closed");
+  const { query } = useKBar();
 
   useEffect(() => {
     const scrollHandler = (_event: Event) => {
@@ -67,22 +71,23 @@ const Header: React.FC<HeaderProps> = () => {
         <div
           className={classNames(
             "flex justify-center w-full",
-            "bg-white/90 dark:bg-neutral-900/90",
-            "backdrop-blur supports-backdrop-blur:bg-white/60 supports-backdrop-blur:dark:bg-neutral-900/60",
-            "border-b border-neutral-900/10 dark:border-neutral-50/[0.06]",
+            "backdrop-blur",
+            blurBg,
+            "border-b",
+            borderColor,
           )}
         >
           <div className="flex items-center justify-between w-full max-w-screen-xl h-14 px-4 mx-auto">
             <div className="flex md:hidden">
               <button
-                role="button"
+                type="button"
                 aria-label="show menu"
                 aria-expanded={navState === "opened"}
                 aria-controls={navId}
                 onClick={() =>
                   setNavState(p => (p === "opened" ? "closing" : "opened"))
                 }
-                className="-m-2 p-2 rounded-full hover:bg-neutral-900/10 hover:dark:bg-neutral-100/10"
+                className={classNames("-m-2 p-2 rounded-full", hoverBgColor)}
               >
                 <MenuIcon
                   className={"w-6 h-6 stroke-black dark:stroke-white"}
@@ -106,8 +111,13 @@ const Header: React.FC<HeaderProps> = () => {
                   </Link>
                 ))}
               </nav>
-              <button role="button" aria-label="search post">
-                🔍
+              <button
+                type="button"
+                aria-label="search post"
+                className={classNames("-m-2 p-2 rounded-full", hoverBgColor)}
+                onClick={() => query.toggle()}
+              >
+                <SearchIcon className="w-6 h-6 p-[2px]" />
               </button>
             </div>
           </div>

@@ -17,9 +17,9 @@ const DarkModeButton: React.FC<DarkModeButtonProps> = ({
   const isLight = theme === "light";
 
   const variants: Variants = {
-    enter: { x: "-50%", y: "50%", opacity: 0, scale: 0, rotate: -180 },
-    animate: { x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 },
-    exit: { x: "50%", y: "50%", opacity: 0, scale: 0, rotate: 180 },
+    enter: { opacity: 0, scale: 0, rotate: -180 },
+    animate: { opacity: 1, scale: 1, rotate: 0 },
+    exit: { opacity: 0, scale: 0, rotate: 180 },
   };
 
   return (

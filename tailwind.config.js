@@ -10,6 +10,7 @@ module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./styles/**/*.{js,ts,jsx,tsx}",
     "./content/**/*.{js,ts,jsx,tsx,mdx}",
     "./blog.config.tsx",
   ],
@@ -37,7 +38,7 @@ module.exports = {
     function ({ addVariant }) {
       addVariant(
         "supports-backdrop-blur",
-        "@supports (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))"
+        "@supports (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))",
       );
       addVariant("children", "& > *");
     },

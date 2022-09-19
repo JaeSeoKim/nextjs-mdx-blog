@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Document, {
   DocumentContext,
   DocumentInitialProps,
@@ -6,6 +7,7 @@ import Document, {
   NextScript,
   Head,
 } from "next/document";
+import { bg } from "../styles/common.styles";
 
 class MyDocument extends Document {
   static async getInitialProps(
@@ -40,7 +42,7 @@ class MyDocument extends Document {
             window.addEventListener('resize', setViewportProperty(document.documentElement));
           `}</script>
         </Head>
-        <body style={{ position: "relative" }}>
+        <body className={classNames("relative", bg)}>
           <Main />
           <NextScript />
         </body>
