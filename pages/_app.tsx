@@ -3,27 +3,49 @@ import "@code-hike/mdx/dist/index.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import Layout from "../components/Layout";
-import { KBarProvider } from "kbar";
+import { Action, KBarProvider } from "kbar";
 import ComandBar from "../components/ComandBar";
-
-const actions = [
-  {
-    id: "blog",
-    name: "Blog",
-    shortcut: ["b"],
-    keywords: "writing words",
-    perform: () => (window.location.pathname = "blog"),
-  },
-  {
-    id: "contact",
-    name: "Contact",
-    shortcut: ["c"],
-    keywords: "email",
-    perform: () => (window.location.pathname = "contact"),
-  },
-];
+import { useMemo } from "react";
+import { useRouter } from "next/router";
+import { navbar } from "../blog.config";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const actions = useMemo(
+    () => [
+      {
+        id: "홈",
+        name: "홈",
+        shortcut: ["홈"],
+        keywords: "back",
+        perform: () => router.push("/"),
+      },
+      {
+        id: "blog",
+        name: "Blog",
+        shortcut: ["b"],
+        keywords: "writing words",
+        perform: () => router.push("blog"),
+      },
+      {
+        id: "contact",
+        name: "Contact",
+        shortcut: ["c"],
+        keywords: "email",
+        perform: () => (window.location.pathname = "contact"),
+      },
+      ...navbar.items.map(function (item, index): Action {
+        return {
+          id: `kbar-nav-item-${item.label}-${item.href}-${index}`,
+          name: item.label,
+          section: "Navigation",
+          perform: () => router.push(item.href),
+        };
+      }),
+    ],
+    [router],
+  );
+
   return (
     <>
       <ThemeProvider
@@ -31,7 +53,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         defaultTheme="system"
         enableSystem={false}
       >
-        <KBarProvider actions={actions}>
+        <KBarProvider
+          actions={actions}
+          options={{
+            enableHistory: true,
+          }}
+        >
           <ComandBar />
           <Layout>
             <Component {...pageProps} />

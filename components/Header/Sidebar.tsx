@@ -8,14 +8,15 @@ import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { blurBg, borderColor, hoverBgColor } from "../../styles/common.styles";
 import DarkModeButton from "./DarkModeButton";
 
+export const SIDEBAR_ID = "header-sidebar";
+
 export type SidebarProps = {
-  id: string;
   items: navBarItem[];
   state: NavState;
   setState: React.Dispatch<React.SetStateAction<NavState>>;
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ id, items, state, setState }) => {
+const Sidebar: React.FC<SidebarProps> = ({ items, state, setState }) => {
   const shouldReducedMotion = useReducedMotion();
   return (
     <div
@@ -25,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ id, items, state, setState }) => {
       )}
     >
       <motion.nav
-        id={id}
+        id={SIDEBAR_ID}
         animate={state !== "opened" ? "close" : "open"}
         initial={{
           x: "-100%",

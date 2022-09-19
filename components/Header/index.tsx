@@ -1,11 +1,11 @@
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import classNames from "classnames";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { navbar } from "../../blog.config";
 import MenuIcon from "./MenuIcon";
-import SideBar from "./Sidebar";
+import SideBar, { SIDEBAR_ID } from "./Sidebar";
 import { blurBg, borderColor, hoverBgColor } from "../../styles/common.styles";
 import SearchIcon from "./SearchIcon";
 import { useKBar } from "kbar";
@@ -16,7 +16,6 @@ export type NavState = "opened" | "closing" | "closed";
 const Header: React.FC<HeaderProps> = () => {
   const headerRef = useRef<HTMLElement>(null);
   const prevWindowScrollY = useRef(0);
-  const navId = useId();
   const shouldReduceMotion = useReducedMotion();
   const [animation, setAnimation] = useState<"visible" | "hidden">("visible");
   const [navState, setNavState] = useState<NavState>("closed");
@@ -83,7 +82,7 @@ const Header: React.FC<HeaderProps> = () => {
                 type="button"
                 aria-label="show menu"
                 aria-expanded={navState === "opened"}
-                aria-controls={navId}
+                aria-controls={SIDEBAR_ID}
                 onClick={() =>
                   setNavState(p => (p === "opened" ? "closing" : "opened"))
                 }
@@ -124,7 +123,6 @@ const Header: React.FC<HeaderProps> = () => {
         </div>
         {navState !== "closed" && (
           <SideBar
-            id={navId}
             state={navState}
             setState={setNavState}
             items={navbar.items}

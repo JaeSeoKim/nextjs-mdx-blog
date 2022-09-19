@@ -36,6 +36,7 @@ const MenuIcon: React.FC<MenuIconProps> = ({ isOpen, ...props }) => {
       height="1rem"
       {...props}
       transition={transition}
+      initial={"closed"}
       animate={isOpen ? "open" : "closed"}
       viewBox="0 0 23 23"
     >

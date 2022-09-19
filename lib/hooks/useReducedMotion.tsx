@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 
 // TODO: https://github.com/framer/motion/pull/1700 병합시 framer-motion 내부의 useReducedMotion으로 대치 예정.
 
@@ -11,8 +11,7 @@ export const prefersReducedMotion: ReducedMotionState = { current: null };
 
 export const hasReducedMotionListener = { current: false };
 
-export const reducedMotionListenerCallbacks = new Map<
-  string,
+export const reducedMotionListenerCallbacks = new Set<
   (event: MediaQueryListEvent) => void
 >();
 
@@ -69,20 +68,20 @@ export default function useReducedMotion() {
    */
   !hasReducedMotionListener.current && initPrefersReducedMotion();
 
-  const id = useId();
   const [shouldReduceMotion, setShouldReduceMotion] = useState(
-    prefersReducedMotion.current
+    prefersReducedMotion.current,
   );
 
   useEffect(() => {
-    reducedMotionListenerCallbacks.set(id, () => {
+    const callback = () => {
       setShouldReduceMotion(prefersReducedMotion.current);
-    });
+    };
+    reducedMotionListenerCallbacks.add(callback);
 
     return () => {
-      reducedMotionListenerCallbacks.delete(id);
+      reducedMotionListenerCallbacks.delete(callback);
     };
-  }, [setShouldReduceMotion, id]);
+  }, [setShouldReduceMotion]);
 
   return shouldReduceMotion;
 }

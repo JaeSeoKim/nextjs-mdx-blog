@@ -5,7 +5,6 @@ module.exports = {
     "postcss-import": {},
     "tailwindcss/nesting": {},
     tailwindcss: {},
-    "postcss-viewport-height-correction": {},
     autoprefixer: {},
   },
 };
