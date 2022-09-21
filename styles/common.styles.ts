@@ -12,3 +12,7 @@ export const borderColor =
 
 export const hoverBgColor =
   "transition-colors motion-reduce:transition-none duration-100 ease-in-out hover:bg-neutral-900/10 hover:dark:bg-neutral-100/10";
+
+export const subTextColor = "text-neutral-600 dark:text-neutral-300";
+export const hoverSubTextColor =
+  "hover:text-neutral-600 hover:dark:text-neutral-300";

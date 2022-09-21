@@ -4,10 +4,25 @@
 
 .prose {
   [data-tailwind-camouflage="figure"] > *:first-child {
-    @apply mx-auto #{!important};
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   [data-tailwind-camouflage="figcaption"] {
     @apply block text-center;
   }
 }
+
+// .dark {
+//   .layout-bg {
+//     &::before {
+//       content: "";
+//       position: absolute;
+//       background: radial-gradient(
+//         29.65% 29.65% at 5.46% 26.88%,
+//         rgba(255, 121, 198, 0.1) 0%,
+//         rgba(0, 0, 0, 0) 100%
+//       );
+//     }
+//   }
+// }

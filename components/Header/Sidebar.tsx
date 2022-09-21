@@ -64,14 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ items, state, setState }) => {
               borderColor,
             )}
           >
-            <DarkModeButton
-              className={classNames(
-                "m-2 p-2",
-                "text-xl font-semibold",
-                "rounded-full",
-                hoverBgColor,
-              )}
-            />
+            <DarkModeButton />
           </div>
           {items.map((item, index) => (
             <Link

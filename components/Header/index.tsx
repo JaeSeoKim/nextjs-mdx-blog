@@ -6,9 +6,15 @@ import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { navbar } from "../../blog.config";
 import MenuIcon from "./MenuIcon";
 import SideBar, { SIDEBAR_ID } from "./Sidebar";
-import { blurBg, borderColor, hoverBgColor } from "../../styles/common.styles";
+import {
+  blurBg,
+  borderColor,
+  hoverBgColor,
+  hoverSubTextColor,
+} from "../../styles/common.styles";
 import SearchIcon from "./SearchIcon";
 import { useKBar } from "kbar";
+import DarkModeButton from "./DarkModeButton";
 
 export type HeaderProps = {};
 export type NavState = "opened" | "closing" | "closed";
@@ -99,16 +105,19 @@ const Header: React.FC<HeaderProps> = () => {
                 <a>{navbar.title}</a>
               </Link>
             </h1>
-            <div className="flex">
-              <nav className="hidden md:flex">
+            <div className="flex items-center">
+              <nav className="hidden md:flex items-center">
                 {navbar.items.map((item, index) => (
                   <Link
                     href={item.href}
                     key={`r-nav-item-${index}-${item.label}-${item.href}`}
                   >
-                    <a className="mr-4">{item.label}</a>
+                    <a className={classNames("mr-4", hoverSubTextColor)}>
+                      {item.label}
+                    </a>
                   </Link>
                 ))}
+                <DarkModeButton className="-ml-2" />
               </nav>
               <button
                 type="button"

@@ -9,6 +9,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
       className={classNames(
+        "layout-bg",
         "relative flex flex-col min-h-screen",
         "text-black dark:text-white",
       )}

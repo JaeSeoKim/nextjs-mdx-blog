@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import { KBarPortal, KBarPositioner, KBarAnimator, useKBar } from "kbar";
+import { KBarPortal, KBarPositioner } from "kbar";
 import { KBarSearch } from "./KBarSearch";
 import { blurBg, borderColor } from "../../styles/common.styles";
 import SearchIcon from "../Header/SearchIcon";
 import RenderResults from "./RenderResults";
+import Kbd from "./Kbd";
+import { KBarAnimator } from "./KBarAnimator";
 
 const ComandBar: React.FC = () => {
-  const { query } = useKBar();
-
   return (
     <KBarPortal>
       <KBarPositioner
@@ -22,7 +22,7 @@ const ComandBar: React.FC = () => {
           <div
             className={classNames(
               "flex flex-col",
-              "w-[90vw] md:w-[36rem] max-h-[60vh] overflow-hidden overflow-y-auto",
+              "w-[90vw] md:w-[40rem] max-h-[60vh] overflow-hidden overflow-y-auto",
               blurBg,
               "border",
               borderColor,
@@ -31,24 +31,14 @@ const ComandBar: React.FC = () => {
           >
             <div
               className={classNames(
-                "flex items-center p-2 md:p-4",
+                "flex items-center py-4 px-2 md:px-4",
                 "border-b",
                 borderColor,
               )}
             >
               <SearchIcon className="w-8 h-8 p-1" />
               <KBarSearch className="appearance-none w-full md:text-xl outline-none mx-2 md:mx-4 bg-transparent" />
-              <kbd
-                role="button"
-                className={classNames(
-                  "px-1 text-sm md:text-base font-semibold rounded border",
-                  borderColor,
-                  "cursor-pointer",
-                )}
-                onClick={() => query.toggle()}
-              >
-                ESC
-              </kbd>
+              <Kbd>ESC</Kbd>
             </div>
             <RenderResults />
           </div>

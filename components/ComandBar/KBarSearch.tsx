@@ -9,16 +9,22 @@ export function KBarSearch(
     defaultPlaceholder?: string;
   },
 ) {
-  const [search, setSearch] = useState("");
-
-  const { query, actions, currentRootActionId, activeIndex, showing, options } =
-    useKBar(state => ({
-      search: state.searchQuery,
-      currentRootActionId: state.currentRootActionId,
-      actions: state.actions,
-      activeIndex: state.activeIndex,
-      showing: state.visualState === VisualState.showing,
-    }));
+  const {
+    query,
+    searchQuery,
+    actions,
+    currentRootActionId,
+    activeIndex,
+    showing,
+    options,
+  } = useKBar(state => ({
+    searchQuery: state.searchQuery,
+    currentRootActionId: state.currentRootActionId,
+    actions: state.actions,
+    activeIndex: state.activeIndex,
+    showing: state.visualState === VisualState.showing,
+  }));
+  const [search, setSearch] = useState(searchQuery);
 
   const ownRef = React.useRef<HTMLInputElement>(null);
 

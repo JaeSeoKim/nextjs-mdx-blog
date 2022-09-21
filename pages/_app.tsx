@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       {
         id: "홈",
         name: "홈",
+        subtitle: "이것은 홈이지롱...!",
         shortcut: ["홈"],
         keywords: "back",
         perform: () => router.push("/"),
@@ -48,11 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem={false}
-      >
+      <ThemeProvider attribute="class" enableSystem={false}>
         <KBarProvider
           actions={actions}
           options={{
