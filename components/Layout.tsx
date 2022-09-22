@@ -9,7 +9,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
       className={classNames(
-        "relative flex flex-col min-h-screen max-h-screen",
+        "relative flex flex-col min-h-screen max-h-screen overflow-y-auto overflow-x-hidden",
         "text-black dark:text-white",
         "layout-glow",
       )}
