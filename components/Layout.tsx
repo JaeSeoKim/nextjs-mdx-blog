@@ -9,9 +9,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
       className={classNames(
-        "layout-bg",
-        "relative flex flex-col min-h-screen",
+        "relative flex flex-col min-h-screen max-h-screen",
         "text-black dark:text-white",
+        "layout-glow",
       )}
     >
       <Header />

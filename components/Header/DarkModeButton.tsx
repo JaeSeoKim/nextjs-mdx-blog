@@ -50,7 +50,8 @@ const DarkModeButton: React.FC<DarkModeButtonProps> = ({
             duration: shouldReducedMotion ? 0 : 0.3,
           }}
         >
-          {isLight ? <BsMoonStarsFill /> : <BsSunFill />}
+          <BsMoonStarsFill className="block dark:hidden" />
+          <BsSunFill className="hidden dark:block" />
         </motion.span>
       </AnimatePresence>
     </button>

@@ -13,16 +13,42 @@
   }
 }
 
-// .dark {
-//   .layout-bg {
-//     &::before {
-//       content: "";
-//       position: absolute;
-//       background: radial-gradient(
-//         29.65% 29.65% at 5.46% 26.88%,
-//         rgba(255, 121, 198, 0.1) 0%,
-//         rgba(0, 0, 0, 0) 100%
-//       );
-//     }
-//   }
-// }
+.light {
+  --glow-color-1: #83eaf1;
+  --glow-color-2: #63a4ff;
+}
+
+.dark {
+  --glow-color-1: #ff79c6;
+  --glow-color-2: #bd93f9;
+}
+
+.layout-glow {
+  &::before {
+    content: "";
+    background-color: var(--glow-color-1);
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(68px);
+    opacity: 0.69;
+    position: absolute;
+    top: 240px;
+    left: -60px;
+  }
+
+  &::after {
+    content: "";
+    background-color: var(--glow-color-2);
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(68px);
+    opacity: 0.69;
+    position: absolute;
+    top: 12px;
+    right: -60px;
+  }
+}
