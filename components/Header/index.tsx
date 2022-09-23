@@ -3,7 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import classNames from "classnames";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
-import { navbar } from "../../blog.config";
+import { header } from "../../blog.config";
 import MenuIcon from "./MenuIcon";
 import SideBar, { SIDEBAR_ID } from "./Sidebar";
 import {
@@ -76,10 +76,9 @@ const Header: React.FC<HeaderProps> = () => {
         <div
           className={classNames(
             "flex justify-center w-full",
-            "backdrop-blur",
-            blurBg,
             "border-b",
             borderColor,
+            header.className,
           )}
         >
           <div className="flex items-center justify-between w-full max-w-screen-xl h-14 px-4 mx-auto">
@@ -102,12 +101,12 @@ const Header: React.FC<HeaderProps> = () => {
             </div>
             <h1 className="flex text-lg drop-shadow dark:shadow-neutral-900">
               <Link href="/">
-                <a>{navbar.title}</a>
+                <a>{header.title}</a>
               </Link>
             </h1>
             <div className="flex items-center">
               <nav className="hidden md:flex items-center">
-                {navbar.items.map((item, index) => (
+                {header.items.map((item, index) => (
                   <Link
                     href={item.href}
                     key={`r-nav-item-${index}-${item.label}-${item.href}`}
@@ -134,7 +133,7 @@ const Header: React.FC<HeaderProps> = () => {
           <SideBar
             state={navState}
             setState={setNavState}
-            items={navbar.items}
+            items={header.items}
           />
         )}
       </motion.header>

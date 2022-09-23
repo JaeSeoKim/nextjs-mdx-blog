@@ -7,7 +7,7 @@ import { Action, KBarProvider } from "kbar";
 import ComandBar from "../components/ComandBar";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
-import { navbar } from "../blog.config";
+import { header } from "../blog.config";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         keywords: "email",
         perform: () => (window.location.pathname = "contact"),
       },
-      ...navbar.items.map(function (item, index): Action {
+      ...header.items.map(function (item, index): Action {
         return {
           id: `kbar-nav-item-${item.label}-${item.href}-${index}`,
           name: item.label,

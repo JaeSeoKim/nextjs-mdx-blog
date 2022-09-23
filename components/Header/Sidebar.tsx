@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 import { NavState } from ".";
-import { navBarItem } from "../../blog.config";
+import { headerItem } from "../../blog.config";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { blurBg, borderColor, hoverBgColor } from "../../styles/common.styles";
 import DarkModeButton from "./DarkModeButton";
@@ -11,7 +11,7 @@ import DarkModeButton from "./DarkModeButton";
 export const SIDEBAR_ID = "header-sidebar";
 
 export type SidebarProps = {
-  items: navBarItem[];
+  items: headerItem[];
   state: NavState;
   setState: React.Dispatch<React.SetStateAction<NavState>>;
 };
