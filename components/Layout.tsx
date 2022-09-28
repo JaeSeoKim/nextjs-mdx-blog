@@ -9,10 +9,10 @@ export type LayoutProps = PropsWithChildren<{}>;
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div
+      id="layout"
       className={classNames(
         "relative flex flex-col min-h-screen max-h-screen overflow-y-auto overflow-x-hidden",
         "text-black dark:text-white",
-        "layout-glow",
       )}
     >
       <Header />
@@ -30,7 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Copyright ©{author} {new Date().getFullYear()}
+          Copyright ©{author}
         </a>
       </footer>
     </div>

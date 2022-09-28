@@ -90,14 +90,14 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
             }
             const imageData = await getPlaiceholder(
               (() => {
-                const { name, ext } = path.parse(url);
-                return "/" + name + ext;
+                const { name, ext, dir } = path.parse(url);
+                return "/" + dir + "/" + name + ext;
               })(),
               {
                 dir: path.dirname(file.path),
                 removeAlpha: false,
                 size: 16,
-              }
+              },
             );
             const textElement: MdxJsxTextElement = {
               type: "mdxJsxTextElement",
@@ -151,9 +151,9 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
               });
             }
             (parent as Parent).children.splice(index!, 1, textElement);
-          })()
+          })(),
         );
-      }
+      },
     );
     await Promise.all(visitImage);
     (ast as Parent).children.unshift(...imports);

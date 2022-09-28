@@ -21,13 +21,19 @@ export type NavState = "opened" | "closing" | "closed";
 
 const Header: React.FC<HeaderProps> = () => {
   const headerRef = useRef<HTMLElement>(null);
-  const prevWindowScrollY = useRef(0);
+  const prevLayoutScrollTop = useRef(0);
   const shouldReduceMotion = useReducedMotion();
-  const [animation, setAnimation] = useState<"visible" | "hidden">("visible");
+  const [isScollTop, setIsScrollTop] = useState(true);
+  const [visualState, setVisualState] = useState<"visible" | "hidden">(
+    "visible",
+  );
   const [navState, setNavState] = useState<NavState>("closed");
   const { query } = useKBar();
 
   useEffect(() => {
+    const $layout = document.getElementById("layout");
+    if (!$layout) return;
+
     const scrollHandler = (_event: Event) => {
       const $header = headerRef.current;
       if (!$header) return;
@@ -35,22 +41,24 @@ const Header: React.FC<HeaderProps> = () => {
       const headerHeight = $header.offsetHeight;
 
       let isScrollToUp = false;
-      if (prevWindowScrollY.current > window.scrollY) isScrollToUp = true;
+      if (prevLayoutScrollTop.current > $layout.scrollTop) isScrollToUp = true;
 
-      if (window.scrollY < headerHeight) {
-        setAnimation("visible");
+      if ($layout.scrollTop < headerHeight) {
+        setIsScrollTop(true);
+        setVisualState("visible");
       } else {
-        if (isScrollToUp) setAnimation("visible");
-        else setAnimation("hidden");
+        setIsScrollTop(false);
+        if (isScrollToUp) setVisualState("visible");
+        else setVisualState("hidden");
       }
 
-      prevWindowScrollY.current = window.scrollY;
+      prevLayoutScrollTop.current = $layout.scrollTop;
     };
 
-    document.addEventListener("scroll", scrollHandler);
+    $layout.addEventListener("scroll", scrollHandler);
 
     return () => {
-      document.removeEventListener("scroll", scrollHandler);
+      $layout.removeEventListener("scroll", scrollHandler);
     };
   }, []);
 
@@ -58,7 +66,7 @@ const Header: React.FC<HeaderProps> = () => {
     <>
       <motion.header
         ref={headerRef}
-        animate={navState !== "closed" ? "visible" : animation}
+        animate={navState !== "closed" ? "visible" : visualState}
         variants={{
           visible: {
             y: 0,
@@ -75,10 +83,14 @@ const Header: React.FC<HeaderProps> = () => {
       >
         <div
           className={classNames(
-            "flex justify-center w-full",
-            "border-b",
-            borderColor,
-            header.className,
+            "transition-all motion-reduce:transition-none flex justify-center w-full",
+            {
+              "bg-transparent bg-gradient-to-b from-light/30 to-light/0 dark:from-black/30 dark:to-black/0":
+                navState === "closed" && isScollTop,
+              "border-b": navState !== "closed" || !isScollTop,
+              [borderColor]: navState !== "closed" || !isScollTop,
+              [header.className]: navState !== "closed" || !isScollTop,
+            },
           )}
         >
           <div className="flex items-center justify-between w-full max-w-screen-xl h-14 px-4 mx-auto">

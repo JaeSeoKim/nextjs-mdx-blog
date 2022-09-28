@@ -38,7 +38,7 @@ const RenderResults: React.FC = () => {
           >
             <div className="flex flex-col w-full">
               <div className="flex items-center">
-                {item.icon && item.icon}
+                {item.icon && <div className="mr-2">{item.icon}</div>}
                 <div className="text-lg w-full">{item.name}</div>
               </div>
               {item.subtitle && (
@@ -48,7 +48,12 @@ const RenderResults: React.FC = () => {
               )}
             </div>
             {item.shortcut?.map((shortcut, index) => (
-              <Kbd key={`${item.name}-shourcut-${shortcut}-${index}`}>
+              <Kbd
+                key={`${item.name}-shourcut-${shortcut}-${index}`}
+                className={classNames({
+                  ["mr-1"]: index + 1 !== item.shortcut!.length,
+                })}
+              >
                 {shortcut}
               </Kbd>
             ))}

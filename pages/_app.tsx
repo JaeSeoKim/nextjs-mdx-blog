@@ -1,39 +1,48 @@
 import "../styles/globals.scss";
 import "@code-hike/mdx/dist/index.css";
 import type { AppProps } from "next/app";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider, useTheme } from "next-themes";
+import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
 import Layout from "../components/Layout";
-import { Action, KBarProvider } from "kbar";
+import { Action, ActionImpl, KBarProvider } from "kbar";
 import ComandBar from "../components/ComandBar";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import { header } from "../blog.config";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const { setTheme } = useTheme();
+
   const actions = useMemo(
     () => [
       {
-        id: "홈",
-        name: "홈",
-        subtitle: "이것은 홈이지롱...!",
-        shortcut: ["홈"],
-        keywords: "back",
+        id: "home",
+        name: "home",
+        shortcut: ["h"],
         perform: () => router.push("/"),
       },
       {
-        id: "blog",
-        name: "Blog",
-        shortcut: ["b"],
-        keywords: "writing words",
-        perform: () => router.push("blog"),
+        id: "posts",
+        name: "posts",
+        shortcut: ["p"],
+        perform: () => router.push("/posts"),
       },
       {
-        id: "contact",
-        name: "Contact",
-        shortcut: ["c"],
-        keywords: "email",
-        perform: () => (window.location.pathname = "contact"),
+        id: `theme-dark`,
+        name: "DarkMode",
+        icon: <BsMoonStarsFill className="w-5 h-5" />,
+        shortcut: ["c", "t", "d"],
+        section: "Change Theme",
+        perform: () => setTheme("dark"),
+      },
+      {
+        id: `theme-light`,
+        name: "LightMode",
+        icon: <BsSunFill className="w-5 h-5" />,
+        shortcut: ["c", "t", "l"],
+        section: "Change Theme",
+        perform: () => setTheme("light"),
       },
       ...header.items.map(function (item, index): Action {
         return {
@@ -44,26 +53,36 @@ function MyApp({ Component, pageProps }: AppProps) {
         };
       }),
     ],
-    [router],
+    [router, setTheme],
   );
 
   return (
     <>
-      <ThemeProvider attribute="class" enableSystem={false}>
-        <KBarProvider
-          actions={actions}
-          options={{
-            enableHistory: true,
-          }}
-        >
-          <ComandBar />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </KBarProvider>
-      </ThemeProvider>
+      <KBarProvider
+        actions={actions}
+        options={{
+          enableHistory: true,
+        }}
+      >
+        <ComandBar />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </KBarProvider>
     </>
   );
 }
 
-export default MyApp;
+function withTheme(Component: React.ElementType) {
+  const App = ({ ...props }) => {
+    return (
+      <ThemeProvider attribute="class" enableSystem={false}>
+        <Component {...props} />
+      </ThemeProvider>
+    );
+  };
+
+  return App;
+}
+
+export default withTheme(MyApp);

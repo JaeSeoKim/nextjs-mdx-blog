@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { author } from "../blog.config";
-import { blurBg, borderColor } from "../styles/common.styles";
+import { borderColor } from "../styles/common.styles";
 import profileImage from "../_content/profile.png";
 
 export type ProfileProps = {};
@@ -10,7 +10,6 @@ const Profile: React.FC<ProfileProps> = ({}) => {
   return (
     <div
       className={classNames(
-        "profile-grow",
         "flex flex-col md:flex-row justify-center items-center",
         "m-4",
       )}
@@ -24,7 +23,10 @@ const Profile: React.FC<ProfileProps> = ({}) => {
         )}
       >
         <Image
-          {...profileImage}
+          src={profileImage.src}
+          height={profileImage.height}
+          width={profileImage.width}
+          blurDataURL={profileImage.blurDataURL}
           layout="responsive"
           alt={`${author}'s profile`}
           placeholder="blur"

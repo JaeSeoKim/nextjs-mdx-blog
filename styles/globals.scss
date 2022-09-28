@@ -12,22 +12,3 @@
     @apply block text-center;
   }
 }
-
-.profile-grow {
-  position: relative;
-  &::before {
-    content: "";
-    transform-origin: center center;
-    background-image: linear-gradient(to right top, #ff79c6, #bd93f9);
-    width: 500px;
-    height: 200px;
-    z-index: -1;
-    filter: blur(26px);
-    opacity: 0.69;
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    border-radius: 20px;
-    transform: skewY(-8deg) translate(-50%, -50%);
-  }
-}

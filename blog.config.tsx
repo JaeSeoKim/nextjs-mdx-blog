@@ -13,8 +13,8 @@ export const header: headerType = {
   className: classNames(
     "backdrop-blur",
     "bg-gradient-to-r",
-    "from-[#83eaf1]/70 to-[#63a4ff]/70",
-    "dark:from-[#ff79c6]/70 dark:to-[#bd93f9]/70",
+    "from-[#83eaf1]/60 to-[#63a4ff]/60",
+    "dark:from-[#ff79c6]/60 dark:to-[#bd93f9]/60",
   ),
   items: [
     {
