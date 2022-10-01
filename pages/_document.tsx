@@ -22,7 +22,12 @@ class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head></Head>
-        <body className={classNames("relative", bg)}>
+        <body
+          className={classNames(
+            "relative min-h-screen max-h-screen overflow-y-auto overflow-x-hidden",
+            bg,
+          )}
+        >
           <Main />
           <NextScript />
         </body>

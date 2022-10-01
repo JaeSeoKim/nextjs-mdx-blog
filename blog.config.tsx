@@ -10,12 +10,10 @@ export const header: headerType = {
       <span className="font-bold">{author}&apos;s</span> Blog
     </>
   ),
-  className: classNames(
-    "backdrop-blur",
-    "bg-gradient-to-r",
-    "from-[#83eaf1]/60 to-[#63a4ff]/60",
-    "dark:from-[#ff79c6]/60 dark:to-[#bd93f9]/60",
-  ),
+  gradient: {
+    light: { from: "rgb(131, 234, 241, 0.8)", to: "rgb(99, 164, 255, 0.8)" },
+    dark: { from: "rgb(255, 121, 198, 0.8)", to: "rgb(189, 147, 249, 0.8)" },
+  },
   items: [
     {
       label: "about",
@@ -34,8 +32,16 @@ export const header: headerType = {
 
 export type headerType = {
   title: ReactElement;
-  className: string;
+  gradient: {
+    light: gradientType;
+    dark: gradientType;
+  };
   items: headerItem[];
+};
+
+export type gradientType = {
+  from: string;
+  to: string;
 };
 
 export type headerItem = {

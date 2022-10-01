@@ -96,7 +96,7 @@ export const remarkMdxImages: Plugin<[RemarkMdxImagesOptions?]> =
               {
                 dir: path.dirname(file.path),
                 removeAlpha: false,
-                size: 16,
+                size: 32,
               },
             );
             const textElement: MdxJsxTextElement = {

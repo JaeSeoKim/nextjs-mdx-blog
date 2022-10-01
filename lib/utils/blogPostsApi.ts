@@ -10,36 +10,43 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import theme from "shiki/themes/one-dark-pro.json";
 import { remarkCodeHike } from "@code-hike/mdx";
+import { StaticImageData } from "next/image";
+import getStaticImageDataWithPlaciceholder from "./getStaticImageDataWithPlaciceholder";
 
 export const ROOT = process.cwd();
 export const POSTS_PATH = path.join(process.cwd(), "_content/posts");
 export const POSTS_GLOB =
   "**/[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]*.{md,mdx}";
 
-export interface PostFrontMatterType {
+export type PostFrontMatterType = {
   title: string;
   date: string;
   tags: string[];
-}
+  image?: StaticImageData;
+  imageAlt?: string;
+};
 
 export async function getAllPosts() {
   const paths = glob.sync(POSTS_GLOB, {
     cwd: POSTS_PATH,
   });
-  return paths.map(filePath => {
-    const rawData = fs.readFileSync(path.join(POSTS_PATH, filePath));
+  return await Promise.all(
+    paths.map(async filePath => {
+      const rawData = fs.readFileSync(path.join(POSTS_PATH, filePath));
 
-    const dateRegex = /[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]/;
-    const date = filePath.match(dateRegex)![0];
+      const dateRegex = /[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]/;
+      const date = filePath.match(dateRegex)![0];
+      const matterData = matter(rawData).data;
 
-    return {
-      frontmatter: {
-        ...matter(rawData).data,
-        date: date,
-      } as PostFrontMatterType,
-      slug: filePath.replace(/\.mdx?$/, ""),
-    };
-  });
+      return {
+        frontmatter: {
+          ...matterData,
+          date: date,
+        } as PostFrontMatterType,
+        slug: filePath.replace(/\.mdx?$/, ""),
+      };
+    }),
+  );
 }
 
 export async function getPostBySlug(slug: string) {
@@ -65,7 +72,7 @@ export async function getPostBySlug(slug: string) {
       ROOT,
       "node_modules",
       "esbuild",
-      "esbuild.exe"
+      "esbuild.exe",
     );
   } else {
     process.env.ESBUILD_BINARY_PATH = path.join(
@@ -73,7 +80,7 @@ export async function getPostBySlug(slug: string) {
       "node_modules",
       "esbuild",
       "bin",
-      "esbuild"
+      "esbuild",
     );
   }
 
@@ -85,7 +92,7 @@ export async function getPostBySlug(slug: string) {
     return path.join(POSTS_PATH, `${slug}.md`);
   })();
 
-  const post = await bundleMDX<PostFrontMatterType>({
+  const { frontmatter, ...post } = await bundleMDX<PostFrontMatterType>({
     file: filepath,
     cwd: path.dirname(filepath),
     esbuildOptions(options) {
@@ -127,5 +134,17 @@ export async function getPostBySlug(slug: string) {
       return options;
     },
   });
-  return post;
+
+  if (frontmatter.image) {
+    frontmatter.image = await getStaticImageDataWithPlaciceholder(
+      path.join(POSTS_PATH, frontmatter.image as unknown as string),
+      {
+        removeAlpha: true,
+        size: 32,
+      },
+    );
+  }
+  const dateRegex = /[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]/;
+  frontmatter.date = filepath.match(dateRegex)![0];
+  return { ...post, frontmatter };
 }

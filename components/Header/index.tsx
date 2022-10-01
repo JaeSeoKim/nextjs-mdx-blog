@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import classNames from "classnames";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { header } from "../../blog.config";
 import MenuIcon from "./MenuIcon";
 import SideBar, { SIDEBAR_ID } from "./Sidebar";
 import {
-  blurBg,
   borderColor,
   hoverBgColor,
   hoverSubTextColor,
@@ -15,25 +14,26 @@ import {
 import SearchIcon from "./SearchIcon";
 import { useKBar } from "kbar";
 import DarkModeButton from "./DarkModeButton";
+import { useTheme } from "next-themes";
 
 export type HeaderProps = {};
 export type NavState = "opened" | "closing" | "closed";
 
 const Header: React.FC<HeaderProps> = () => {
   const headerRef = useRef<HTMLElement>(null);
-  const prevLayoutScrollTop = useRef(0);
+  const prevScrollY = useRef(0);
   const shouldReduceMotion = useReducedMotion();
+  const { theme } = useTheme();
   const [isScollTop, setIsScrollTop] = useState(true);
   const [visualState, setVisualState] = useState<"visible" | "hidden">(
     "visible",
   );
   const [navState, setNavState] = useState<NavState>("closed");
+  const headerStyleType =
+    !(navState !== "closed") && isScollTop ? "transparent" : "gradient";
   const { query } = useKBar();
 
   useEffect(() => {
-    const $layout = document.getElementById("layout");
-    if (!$layout) return;
-
     const scrollHandler = (_event: Event) => {
       const $header = headerRef.current;
       if (!$header) return;
@@ -41,9 +41,10 @@ const Header: React.FC<HeaderProps> = () => {
       const headerHeight = $header.offsetHeight;
 
       let isScrollToUp = false;
-      if (prevLayoutScrollTop.current > $layout.scrollTop) isScrollToUp = true;
-
-      if ($layout.scrollTop < headerHeight) {
+      const scrollY = window.scrollY;
+      if (prevScrollY.current > scrollY) isScrollToUp = true;
+      prevScrollY.current = scrollY;
+      if (scrollY < headerHeight) {
         setIsScrollTop(true);
         setVisualState("visible");
       } else {
@@ -51,14 +52,11 @@ const Header: React.FC<HeaderProps> = () => {
         if (isScrollToUp) setVisualState("visible");
         else setVisualState("hidden");
       }
-
-      prevLayoutScrollTop.current = $layout.scrollTop;
     };
 
-    $layout.addEventListener("scroll", scrollHandler);
-
+    window.addEventListener("scroll", scrollHandler);
     return () => {
-      $layout.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener("scroll", scrollHandler);
     };
   }, []);
 
@@ -79,19 +77,30 @@ const Header: React.FC<HeaderProps> = () => {
           type: "tween",
           duration: shouldReduceMotion ? 0 : 0.3,
         }}
-        className={"sticky top-0 left-0 z-10"}
+        className={"sticky top-0 left-0 z-10 w-full"}
       >
-        <div
-          className={classNames(
-            "transition-all motion-reduce:transition-none flex justify-center w-full",
-            {
-              "bg-transparent bg-gradient-to-b from-light/30 to-light/0 dark:from-black/30 dark:to-black/0":
-                navState === "closed" && isScollTop,
-              "border-b": navState !== "closed" || !isScollTop,
-              [borderColor]: navState !== "closed" || !isScollTop,
-              [header.className]: navState !== "closed" || !isScollTop,
+        <motion.div
+          animate={[headerStyleType, `${theme}-${headerStyleType}`]}
+          variants={{
+            ["transparent"]: {
+              backgroundImage:
+                "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(255,255,255,0))",
             },
-          )}
+            ["light-gradient"]: {
+              backgroundImage: `linear-gradient(to right, ${header.gradient.light.from}, ${header.gradient.light.to})`,
+            },
+            ["dark-gradient"]: {
+              backgroundImage: `linear-gradient(to right, ${header.gradient.dark.from}, ${header.gradient.dark.to})`,
+            },
+          }}
+          transition={{
+            type: "tween",
+            duration: shouldReduceMotion ? 0 : 0.15,
+          }}
+          className={classNames("flex justify-center w-full text-white", {
+            [`backdrop-blur border-b ${borderColor}`]:
+              navState !== "closed" || !isScollTop,
+          })}
         >
           <div className="flex items-center justify-between w-full max-w-screen-xl h-14 px-4 mx-auto">
             <div className="flex md:hidden">
@@ -106,7 +115,7 @@ const Header: React.FC<HeaderProps> = () => {
                 className={classNames("-m-2 p-2 rounded-full", hoverBgColor)}
               >
                 <MenuIcon
-                  className={"w-6 h-6 stroke-black dark:stroke-white"}
+                  className={"w-6 h-6 stroke-white"}
                   isOpen={navState === "opened"}
                 />
               </button>
@@ -140,7 +149,7 @@ const Header: React.FC<HeaderProps> = () => {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
         {navState !== "closed" && (
           <SideBar
             state={navState}

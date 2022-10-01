@@ -22,7 +22,7 @@ const ComandBar: React.FC = () => {
           <div
             className={classNames(
               "flex flex-col",
-              "w-[90vw] md:w-[40rem] max-h-[60vh] overflow-hidden overflow-y-auto",
+              "w-[calc(100vw_-_16px)] md:w-[40rem] overflow-hidden overflow-y-auto",
               blurBg,
               "border",
               borderColor,

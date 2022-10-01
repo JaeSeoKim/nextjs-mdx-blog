@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { ThemeProvider, useTheme } from "next-themes";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
 import Layout from "../components/Layout";
-import { Action, ActionImpl, KBarProvider } from "kbar";
+import { Action, KBarProvider } from "kbar";
 import ComandBar from "../components/ComandBar";
 import React, { useMemo } from "react";
 import { useRouter } from "next/router";
@@ -30,18 +30,18 @@ function MyApp({ Component, pageProps }: AppProps) {
       },
       {
         id: `theme-dark`,
-        name: "DarkMode",
+        name: "dark mode",
         icon: <BsMoonStarsFill className="w-5 h-5" />,
-        shortcut: ["c", "t", "d"],
-        section: "Change Theme",
+        shortcut: ["d"],
+        section: "Themes",
         perform: () => setTheme("dark"),
       },
       {
         id: `theme-light`,
-        name: "LightMode",
+        name: "light mode",
         icon: <BsSunFill className="w-5 h-5" />,
-        shortcut: ["c", "t", "l"],
-        section: "Change Theme",
+        shortcut: ["l"],
+        section: "Themes",
         perform: () => setTheme("light"),
       },
       ...header.items.map(function (item, index): Action {

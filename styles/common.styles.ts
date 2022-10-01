@@ -4,7 +4,7 @@ export const bg = "bg-white dark:bg-neutral-900";
 
 export const blurBg = classNames(
   "bg-white/90 dark:bg-neutral-900/90",
-  "supports-backdrop-blur:bg-white/60 supports-backdrop-blur:dark:bg-neutral-900/60",
+  "supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-neutral-900/80",
 );
 
 export const borderColor =

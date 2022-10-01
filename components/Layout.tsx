@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div
       id="layout"
       className={classNames(
-        "relative flex flex-col min-h-screen max-h-screen overflow-y-auto overflow-x-hidden",
+        "relative flex flex-col min-h-screen",
         "text-black dark:text-white",
       )}
     >
@@ -25,7 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         )}
       >
         <a
-          className="flex items-center justify-center gap-2 py-4 text-base"
+          className="flex items-center justify-center gap-2 py-4 text-sm"
           href={github}
           target="_blank"
           rel="noopener noreferrer"

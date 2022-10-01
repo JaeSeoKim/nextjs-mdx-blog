@@ -4,7 +4,6 @@ import { borderColor, subTextColor } from "../../styles/common.styles";
 import Kbd from "./Kbd";
 
 const RenderResults: React.FC = () => {
-  const { query } = useKBar();
   const { results } = useMatches();
 
   return (
@@ -15,7 +14,7 @@ const RenderResults: React.FC = () => {
           return (
             <div
               className={classNames(
-                "px-1 md:px-2 py-2 text-lg",
+                "px-4 py-1 text-lg",
                 subTextColor,
                 "border-t",
                 borderColor,
@@ -29,7 +28,7 @@ const RenderResults: React.FC = () => {
           <div
             className={classNames(
               "flex items-center",
-              "py-4 px-2 md:px-4",
+              "p-4",
               "transition-colors motion-reduce:transition-none duration-100 ease-in-out",
               {
                 "bg-neutral-900/10 dark:bg-neutral-100/10": active,
