@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Image from "next/image";
+import Image from "next/future/image";
 import { author } from "../blog.config";
 import { borderColor } from "../styles/common.styles";
 import profileImage from "../_content/profile.png";
@@ -27,7 +27,6 @@ const Profile: React.FC<ProfileProps> = ({}) => {
           height={profileImage.height}
           width={profileImage.width}
           blurDataURL={profileImage.blurDataURL}
-          layout="responsive"
           alt={`${author}'s profile`}
           placeholder="blur"
         />

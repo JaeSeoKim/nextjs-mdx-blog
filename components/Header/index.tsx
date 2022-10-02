@@ -15,13 +15,15 @@ import SearchIcon from "./SearchIcon";
 import { useKBar } from "kbar";
 import DarkModeButton from "./DarkModeButton";
 import { useTheme } from "next-themes";
+import { useLayoutContext } from "../Layout";
 
 export type HeaderProps = {};
 export type NavState = "opened" | "closing" | "closed";
 
 const Header: React.FC<HeaderProps> = () => {
   const headerRef = useRef<HTMLElement>(null);
-  const prevScrollY = useRef(0);
+  const { layoutId } = useLayoutContext();
+  const prevLayoutscrollTop = useRef(0);
   const shouldReduceMotion = useReducedMotion();
   const { theme } = useTheme();
   const [isScollTop, setIsScrollTop] = useState(true);
@@ -34,17 +36,20 @@ const Header: React.FC<HeaderProps> = () => {
   const { query } = useKBar();
 
   useEffect(() => {
+    const $layout = document.getElementById(layoutId);
+    if (!$layout) return;
+
     const scrollHandler = (_event: Event) => {
       const $header = headerRef.current;
       if (!$header) return;
 
-      const headerHeight = $header.offsetHeight;
-
       let isScrollToUp = false;
-      const scrollY = window.scrollY;
-      if (prevScrollY.current > scrollY) isScrollToUp = true;
-      prevScrollY.current = scrollY;
-      if (scrollY < headerHeight) {
+      const headerHeight = $header.offsetHeight;
+      const scrollTop = $layout.scrollTop;
+
+      if (prevLayoutscrollTop.current > scrollTop) isScrollToUp = true;
+      prevLayoutscrollTop.current = scrollTop;
+      if (scrollTop < headerHeight) {
         setIsScrollTop(true);
         setVisualState("visible");
       } else {
@@ -54,11 +59,11 @@ const Header: React.FC<HeaderProps> = () => {
       }
     };
 
-    window.addEventListener("scroll", scrollHandler);
+    $layout.addEventListener("scroll", scrollHandler);
     return () => {
-      window.removeEventListener("scroll", scrollHandler);
+      $layout.removeEventListener("scroll", scrollHandler);
     };
-  }, []);
+  }, [layoutId]);
 
   return (
     <>
@@ -77,7 +82,7 @@ const Header: React.FC<HeaderProps> = () => {
           type: "tween",
           duration: shouldReduceMotion ? 0 : 0.3,
         }}
-        className={"sticky top-0 left-0 z-10 w-full"}
+        className={"fixed top-0 left-0 z-10 w-full"}
       >
         <motion.div
           animate={[headerStyleType, `${theme}-${headerStyleType}`]}

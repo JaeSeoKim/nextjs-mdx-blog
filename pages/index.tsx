@@ -6,8 +6,7 @@ import type {
 } from "next";
 import Link from "next/link";
 import path from "path";
-import { getPlaiceholder } from "plaiceholder";
-import Hero from "../components/Hero";
+import Hero, { HeroSibling } from "../components/Hero";
 import Profile from "../components/Profile";
 import { getAllPosts } from "../lib/utils/blogPostsApi";
 import getStaticImageDataWithPlaciceholder from "../lib/utils/getStaticImageDataWithPlaciceholder";
@@ -39,10 +38,10 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }) => {
   return (
     <>
-      <Hero {...hero} className={"h-80 md:h-96"}>
+      <Hero {...hero}>
         <div
           className={classNames(
-            "flex flex-col justify-end max-w-screen-lg h-full px-4 pb-12 md:pb-16 mx-auto text-white",
+            "flex flex-col justify-end max-w-screen-lg h-full px-4 pb-12 md:pb-16 mx-auto",
           )}
         >
           <h1 className="text-xl md:text-2xl font-bold">
@@ -53,7 +52,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           </span>
         </div>
       </Hero>
-      <div className="bg-white dark:bg-neutral-900">
+      <HeroSibling>
         <Profile />
         <div className="flex flex-1 flex-col items-center justify-center max-w-screen-md w-full mx-auto px-4">
           {posts.map(({ slug, frontmatter }, index) => (
@@ -72,7 +71,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </Link>
           ))}
         </div>
-      </div>
+      </HeroSibling>
     </>
   );
 };

@@ -1,39 +1,67 @@
 import classNames from "classnames";
-import { PropsWithChildren } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  RefObject,
+  useContext,
+  useId,
+  useRef,
+} from "react";
 import { author, github } from "../blog.config";
 import { borderColor } from "../styles/common.styles";
 import Header from "./Header";
 
+export type LayoutContextType = {
+  layoutId: string;
+};
+
+export const LayoutContext = createContext<LayoutContextType>(
+  null as unknown as LayoutContextType,
+);
+
+export const useLayoutContext = () => {
+  const context = useContext(LayoutContext);
+  return context;
+};
+
 export type LayoutProps = PropsWithChildren<{}>;
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const layoutId = useId();
   return (
-    <div
-      id="layout"
-      className={classNames(
-        "relative flex flex-col min-h-screen",
-        "text-black dark:text-white",
-      )}
+    <LayoutContext.Provider
+      value={{
+        layoutId: layoutId,
+      }}
     >
-      <Header />
-      <main className="flex flex-col grow">{children}</main>
-      <footer
+      <div
+        id={layoutId}
         className={classNames(
-          "flex w-full items-center justify-center mt-4",
-          "border-t",
-          borderColor,
+          "relative min-h-screen max-h-screen overflow-y-auto overflow-x-hidden",
+          "flex flex-col",
+          "text-black dark:text-white",
         )}
       >
-        <a
-          className="flex items-center justify-center gap-2 py-4 text-sm"
-          href={github}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Header />
+        <main className="flex flex-col grow">{children}</main>
+        <footer
+          className={classNames(
+            "flex w-full items-center justify-center mt-4",
+            "border-t",
+            borderColor,
+          )}
         >
-          Copyright ©{author}
-        </a>
-      </footer>
-    </div>
+          <a
+            className="flex items-center justify-center gap-2 py-4 text-sm"
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Copyright ©{author}
+          </a>
+        </footer>
+      </div>
+    </LayoutContext.Provider>
   );
 };
 
