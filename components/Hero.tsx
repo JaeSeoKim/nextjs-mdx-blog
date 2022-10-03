@@ -8,13 +8,9 @@ import { useLayoutContext } from "./Layout";
 
 export type HeroProps = {
   children?: ReactNode | undefined;
-} & (
-  | {
-      image: StaticImageData;
-      imageAlt: string;
-    }
-  | { image?: undefined; imageAlt?: undefined }
-);
+  image?: StaticImageData;
+  imageAlt?: string;
+};
 
 const Hero: React.FC<HeroProps> = ({ image, imageAlt, children }) => {
   const { layoutRef } = useLayoutContext();

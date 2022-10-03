@@ -5,7 +5,6 @@ import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from "next";
 import markdownComponents from "../../components/markdownComponents";
 import Hero, { HeroSibling } from "../../components/Hero";
 import classNames from "classnames";
-import { IoIosArrowDown } from "react-icons/io";
 
 const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
