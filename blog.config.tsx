@@ -18,14 +18,6 @@ export const header: headerType = {
       label: "about",
       href: "/about",
     },
-    {
-      label: "about",
-      href: "/about",
-    },
-    {
-      label: "about",
-      href: "/about",
-    },
   ],
 };
 

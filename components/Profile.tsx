@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Image from "next/future/image";
+import Image from "next/image";
 import { author } from "../blog.config";
 import { borderColor } from "../styles/common.styles";
 import profileImage from "../_content/profile.png";

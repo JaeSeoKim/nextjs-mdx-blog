@@ -12,6 +12,7 @@ import { borderColor } from "../styles/common.styles";
 import Header from "./Header";
 
 export type LayoutContextType = {
+  layoutRef: RefObject<HTMLDivElement>;
   layoutId: string;
 };
 
@@ -27,15 +28,18 @@ export const useLayoutContext = () => {
 export type LayoutProps = PropsWithChildren<{}>;
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const layoutRef = useRef<HTMLDivElement>(null);
   const layoutId = useId();
   return (
     <LayoutContext.Provider
       value={{
-        layoutId: layoutId,
+        layoutRef,
+        layoutId,
       }}
     >
       <div
         id={layoutId}
+        ref={layoutRef}
         className={classNames(
           "relative min-h-screen max-h-screen overflow-y-auto overflow-x-hidden",
           "flex flex-col",
