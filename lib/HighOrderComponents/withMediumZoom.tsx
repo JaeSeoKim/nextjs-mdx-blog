@@ -1,4 +1,5 @@
 import { CSSProperties, ElementType, useRef, useState } from "react";
+import { useLayoutContext } from "../../components/Layout";
 import usePrefersReducedMotion from "../hooks/useReducedMotion";
 
 type withMediumZoomOptionType<C extends ElementType> = {
@@ -21,8 +22,8 @@ export default function withMediumZoom<C extends ElementType, _Props>(
   } = options || {};
 
   const MediumZoom: React.FC<_Props> = ({ ...props }) => {
+    const { layoutRef } = useLayoutContext();
     const Container = as;
-
     const containerRef = useRef<HTMLDivElement>(null);
     const [isOpened, setIsOpened] = useState(false);
     const shouldReduceMotion = usePrefersReducedMotion();
@@ -32,32 +33,33 @@ export default function withMediumZoom<C extends ElementType, _Props>(
       : options?.animationDuration || 300;
 
     const handleImageZoom = () => {
-      if (!containerRef.current || isOpened) return;
+      const $layout = layoutRef.current;
+      if (!$layout || !containerRef.current || isOpened) return;
 
       const containerRect = containerRef.current.getBoundingClientRect();
       let clientHeight = containerRect.height;
       let clientWidth = containerRect.width;
 
-      const wPrim = (window.innerWidth - containerRect.width) / 2;
-      const hPrim = (window.innerHeight - containerRect.height) / 2;
+      const wPrim = ($layout.offsetWidth - containerRect.width) / 2;
+      const hPrim = ($layout.offsetHeight - containerRect.height) / 2;
       const cL = containerRect.left;
       const cT = containerRect.top;
 
       const zoomPerc = zoomPercentage / 100;
       if (
-        ((window.innerHeight * zoomPerc) / clientHeight) * clientWidth >=
-        window.innerWidth
+        (($layout.offsetHeight * zoomPerc) / clientHeight) * clientWidth >=
+        $layout.offsetWidth
       ) {
         containerRef.current.style.transform = `translate(${wPrim - cL}px,${
           hPrim - cT
-        }px) scale(${(window.innerWidth * zoomPerc) / clientWidth})`;
+        }px) scale(${($layout.offsetWidth * zoomPerc) / clientWidth})`;
       } else {
         containerRef.current.style.transform = `translate(${wPrim - cL}px,${
           hPrim - cT
-        }px) scale(${(window.innerHeight * zoomPerc) / clientHeight})`;
+        }px) scale(${($layout.offsetHeight * zoomPerc) / clientHeight})`;
       }
 
-      window.document.addEventListener("scroll", closeWrapper, { once: true });
+      $layout.addEventListener("scroll", closeWrapper, { once: true });
 
       setIsOpened(true);
     };
@@ -104,7 +106,12 @@ export default function withMediumZoom<C extends ElementType, _Props>(
             onClick={closeWrapper}
           />
         ) : null}
-        <Container style={styles} ref={containerRef} onClick={handleImageZoom}>
+        <Container
+          style={styles}
+          ref={containerRef}
+          onClick={handleImageZoom}
+          className="hover:will-change-transform"
+        >
           <Component {...props} onClick={isOpened ? closeWrapper : undefined} />
         </Container>
       </>

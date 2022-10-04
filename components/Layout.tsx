@@ -10,6 +10,7 @@ import {
 import { author, github } from "../blog.config";
 import { borderColor } from "../styles/common.styles";
 import Header from "./Header";
+import Hero, { HeroProps, HeroSibling } from "./Hero";
 
 export type LayoutContextType = {
   layoutRef: RefObject<HTMLDivElement>;
@@ -25,9 +26,11 @@ export const useLayoutContext = () => {
   return context;
 };
 
-export type LayoutProps = PropsWithChildren<{}>;
+export type LayoutProps = PropsWithChildren<{
+  hero?: HeroProps;
+}>;
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ hero, children }) => {
   const layoutRef = useRef<HTMLDivElement>(null);
   const layoutId = useId();
   return (
@@ -46,8 +49,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           "text-black dark:text-white",
         )}
       >
-        <Header />
-        <main className="flex flex-col grow">{children}</main>
+        <Header isScrollTopTransparent={!!hero?.image} />
+        <main className="flex flex-col grow">
+          {hero ? (
+            <>
+              <Hero {...hero} />
+              <HeroSibling>{children}</HeroSibling>
+            </>
+          ) : (
+            children
+          )}
+        </main>
         <footer
           className={classNames(
             "flex w-full items-center justify-center mt-4",

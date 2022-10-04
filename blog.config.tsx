@@ -10,8 +10,8 @@ export const header: headerType = {
     </>
   ),
   gradient: {
-    light: { from: "rgb(131, 234, 241, 0.8)", to: "rgb(99, 164, 255, 0.8)" },
-    dark: { from: "rgb(255, 121, 198, 0.8)", to: "rgb(189, 147, 249, 0.8)" },
+    light: { from: "rgba(99, 164, 255, 0.6)", to: "rgba(77, 215, 224, 0.6)" },
+    dark: { from: "rgba(255, 121, 198, 0.6)", to: "rgba(189, 147, 249, 0.6)" },
   },
   items: [
     {

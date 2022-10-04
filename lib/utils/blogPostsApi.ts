@@ -17,13 +17,13 @@ export const ROOT = process.cwd();
 export const POSTS_PATH = path.join(process.cwd(), "_content/posts");
 export const POSTS_GLOB =
   "**/[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]*.{md,mdx}";
+export const DATE_REGEX = /[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]/;
 
 export type PostFrontMatterType = {
   title: string;
   date: string;
   tags: string[];
   image?: StaticImageData;
-  imageAlt?: string;
 };
 
 export async function getAllPosts() {
@@ -34,12 +34,11 @@ export async function getAllPosts() {
     paths.map(async filePath => {
       const rawData = fs.readFileSync(path.join(POSTS_PATH, filePath));
 
-      const dateRegex = /[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]/;
-      const date = filePath.match(dateRegex)![0];
+      const date = filePath.match(DATE_REGEX)![0];
       const matterData = matter(rawData).data;
 
       return {
-        frontmatter: {
+        frontMatter: {
           ...matterData,
           date: date,
         } as PostFrontMatterType,
@@ -92,48 +91,50 @@ export async function getPostBySlug(slug: string) {
     return path.join(POSTS_PATH, `${slug}.md`);
   })();
 
-  const { frontmatter, ...post } = await bundleMDX<PostFrontMatterType>({
-    file: filepath,
-    cwd: path.dirname(filepath),
-    esbuildOptions(options) {
-      options.bundle = true;
-      options.minify = true;
-      options.format = "iife";
-      options.plugins = [...(options.plugins ?? [])];
-      options.loader = {
-        ...(options.loader ?? {}),
-        ".ts": "ts",
-        ".tsx": "tsx",
-        ".js": "js",
-        ".jsx": "jsx",
-        ".avif": "file",
-        ".webp": "file",
-        ".png": "file",
-        ".jpeg": "file",
-        ".gif": "file",
-        ".svg": "file",
-      };
-      options.publicPath = "/_next/static/media/";
-      options.outdir = path.join(ROOT, ".next/static/media");
-      options.write = true;
-      return options;
+  const { matter, frontmatter, ...post } = await bundleMDX<PostFrontMatterType>(
+    {
+      file: filepath,
+      cwd: path.dirname(filepath),
+      esbuildOptions(options) {
+        options.bundle = true;
+        options.minify = true;
+        options.format = "iife";
+        options.plugins = [...(options.plugins ?? [])];
+        options.loader = {
+          ...(options.loader ?? {}),
+          ".ts": "ts",
+          ".tsx": "tsx",
+          ".js": "js",
+          ".jsx": "jsx",
+          ".avif": "file",
+          ".webp": "file",
+          ".png": "file",
+          ".jpeg": "file",
+          ".gif": "file",
+          ".svg": "file",
+        };
+        options.publicPath = "/_next/static/media/";
+        options.outdir = path.join(ROOT, ".next/static/media");
+        options.write = true;
+        return options;
+      },
+      mdxOptions(options, frontmatter) {
+        // this is the recommended way to add custom remark/rehype plugins:
+        // The syntax might look weird, but it protects you in case we add/remove
+        // plugins in the future.
+        // @ts-ignore
+        options.remarkPlugins = [
+          ...(options.remarkPlugins ?? []),
+          ...remarkPlugins,
+        ];
+        options.rehypePlugins = [
+          ...(options.rehypePlugins ?? []),
+          ...rehypelugins,
+        ];
+        return options;
+      },
     },
-    mdxOptions(options, frontmatter) {
-      // this is the recommended way to add custom remark/rehype plugins:
-      // The syntax might look weird, but it protects you in case we add/remove
-      // plugins in the future.
-      // @ts-ignore
-      options.remarkPlugins = [
-        ...(options.remarkPlugins ?? []),
-        ...remarkPlugins,
-      ];
-      options.rehypePlugins = [
-        ...(options.rehypePlugins ?? []),
-        ...rehypelugins,
-      ];
-      return options;
-    },
-  });
+  );
 
   if (frontmatter.image) {
     frontmatter.image = await getStaticImageDataWithPlaciceholder(
@@ -144,7 +145,9 @@ export async function getPostBySlug(slug: string) {
       },
     );
   }
-  const dateRegex = /[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]/;
-  frontmatter.date = filepath.match(dateRegex)![0];
-  return { ...post, frontmatter };
+  frontmatter.date = filepath.match(DATE_REGEX)![0];
+  return {
+    ...post,
+    frontmatter,
+  };
 }

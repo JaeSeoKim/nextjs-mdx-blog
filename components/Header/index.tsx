@@ -1,26 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 import classNames from "classnames";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { header } from "../../blog.config";
 import MenuIcon from "./MenuIcon";
 import SideBar, { SIDEBAR_ID } from "./Sidebar";
-import {
-  borderColor,
-  hoverBgColor,
-  hoverSubTextColor,
-} from "../../styles/common.styles";
+import { borderColor, hoverBgColor } from "../../styles/common.styles";
 import SearchIcon from "./SearchIcon";
 import { useKBar } from "kbar";
 import DarkModeButton from "./DarkModeButton";
 import { useTheme } from "next-themes";
 import { useLayoutContext } from "../Layout";
 
-export type HeaderProps = {};
+export type HeaderProps = {
+  isScrollTopTransparent?: boolean;
+};
 export type NavState = "opened" | "closing" | "closed";
 
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
   const headerRef = useRef<HTMLElement>(null);
   const { layoutId } = useLayoutContext();
   const prevLayoutscrollTop = useRef(0);
@@ -31,8 +29,12 @@ const Header: React.FC<HeaderProps> = () => {
     "visible",
   );
   const [navState, setNavState] = useState<NavState>("closed");
-  const headerStyleType =
-    !(navState !== "closed") && isScollTop ? "transparent" : "gradient";
+  const headerStyleType: "transparent" | "gradient" = (() => {
+    if (isScrollTopTransparent && !(navState !== "closed") && isScollTop) {
+      return "transparent";
+    }
+    return "gradient";
+  })();
   const { query } = useKBar();
 
   useEffect(() => {
@@ -104,7 +106,7 @@ const Header: React.FC<HeaderProps> = () => {
           }}
           className={classNames("flex justify-center w-full text-white", {
             [`backdrop-blur border-b ${borderColor}`]:
-              navState !== "closed" || !isScollTop,
+              headerStyleType === "gradient",
           })}
         >
           <div className="flex items-center justify-between w-full max-w-screen-xl h-14 px-4 mx-auto">
@@ -137,9 +139,7 @@ const Header: React.FC<HeaderProps> = () => {
                     href={item.href}
                     key={`r-nav-item-${index}-${item.label}-${item.href}`}
                   >
-                    <a className={classNames("mr-4", hoverSubTextColor)}>
-                      {item.label}
-                    </a>
+                    <a className={"mr-4 hover:opacity-75"}>{item.label}</a>
                   </Link>
                 ))}
                 <DarkModeButton className="-ml-2" />

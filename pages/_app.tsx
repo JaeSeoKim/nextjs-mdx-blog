@@ -3,7 +3,6 @@ import "@code-hike/mdx/dist/index.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider, useTheme } from "next-themes";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
-import Layout from "../components/Layout";
 import { Action, KBarProvider } from "kbar";
 import ComandBar from "../components/ComandBar";
 import React, { useMemo } from "react";
@@ -65,9 +64,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <ComandBar />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Component {...pageProps} />
       </KBarProvider>
     </>
   );

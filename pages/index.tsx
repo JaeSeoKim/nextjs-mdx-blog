@@ -6,7 +6,7 @@ import type {
 } from "next";
 import Link from "next/link";
 import path from "path";
-import Hero, { HeroSibling } from "../components/Hero";
+import Layout from "../components/Layout";
 import Profile from "../components/Profile";
 import { getAllPosts } from "../lib/utils/blogPostsApi";
 import getStaticImageDataWithPlaciceholder from "../lib/utils/getStaticImageDataWithPlaciceholder";
@@ -26,7 +26,6 @@ export async function getStaticProps(_ctx: GetStaticPathsContext) {
       posts: posts,
       hero: {
         image: heroImage,
-        imageAlt: "hero!",
       },
     },
   };
@@ -37,42 +36,44 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   hero,
 }) => {
   return (
-    <>
-      <Hero {...hero}>
-        <div
-          className={classNames(
-            "flex flex-col justify-end max-w-screen-lg h-full px-4 pb-12 md:pb-16 mx-auto",
-          )}
-        >
-          <h1 className="text-xl md:text-2xl font-bold">
-            JaeSeoKim의 개발 블로그
-          </h1>
-          <span className="text-sm md:text-base mt-2 md:mt-4">
-            어제의 나보다 더 성장 하기 위해 기록합니다.
-          </span>
-        </div>
-      </Hero>
-      <HeroSibling>
-        <Profile />
-        <div className="flex flex-1 flex-col items-center justify-center max-w-screen-md w-full mx-auto px-4">
-          {posts.map(({ slug, frontmatter }, index) => (
-            <Link href={`/posts/${slug}`} key={slug}>
-              <a
-                className={classNames(
-                  "w-full rounded-xl p-6 text-left",
-                  "border",
-                  borderColor,
-                  { "mt-6": index !== 0 },
-                )}
-              >
-                <h3 className="text-2xl font-bold">{frontmatter.title}</h3>
-                <p className="mt-4 text-xl">{frontmatter.date}</p>
-              </a>
-            </Link>
-          ))}
-        </div>
-      </HeroSibling>
-    </>
+    <Layout
+      hero={{
+        image: hero.image,
+        children: (
+          <div
+            className={classNames(
+              "flex flex-col justify-end max-w-screen-lg h-full px-4 pb-12 md:pb-16 mx-auto",
+            )}
+          >
+            <h1 className="text-xl md:text-2xl font-bold">
+              JaeSeoKim의 개발 블로그
+            </h1>
+            <span className="text-sm md:text-base mt-2 md:mt-4">
+              어제의 나보다 더 성장 하기 위해 기록합니다.
+            </span>
+          </div>
+        ),
+      }}
+    >
+      <Profile />
+      <div className="flex flex-1 flex-col items-center justify-center max-w-screen-md w-full mx-auto px-4">
+        {posts.map(({ slug, frontMatter }, index) => (
+          <Link href={`/posts/${slug}`} key={slug}>
+            <a
+              className={classNames(
+                "w-full rounded-xl p-6 text-left",
+                "border",
+                borderColor,
+                { "mt-6": index !== 0 },
+              )}
+            >
+              <h3 className="text-2xl font-bold">{frontMatter.title}</h3>
+              <p className="mt-4 text-xl">{frontMatter.date}</p>
+            </a>
+          </Link>
+        ))}
+      </div>
+    </Layout>
   );
 };
 
