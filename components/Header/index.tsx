@@ -11,7 +11,6 @@ import SearchIcon from "./SearchIcon";
 import { useKBar } from "kbar";
 import DarkModeButton from "./DarkModeButton";
 import { useTheme } from "next-themes";
-import { useLayoutContext } from "../Layout";
 
 export type HeaderProps = {
   isScrollTopTransparent?: boolean;
@@ -20,11 +19,10 @@ export type NavState = "opened" | "closing" | "closed";
 
 const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
   const headerRef = useRef<HTMLElement>(null);
-  const { layoutId } = useLayoutContext();
-  const prevLayoutscrollTop = useRef(0);
+  const prevLayoutscrollY = useRef(0);
   const shouldReduceMotion = useReducedMotion();
   const { theme } = useTheme();
-  const [isScollTop, setIsScrollTop] = useState(true);
+  const [isScollTop, setIsScrollY] = useState(true);
   const [visualState, setVisualState] = useState<"visible" | "hidden">(
     "visible",
   );
@@ -38,34 +36,31 @@ const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
   const { query } = useKBar();
 
   useEffect(() => {
-    const $layout = document.getElementById(layoutId);
-    if (!$layout) return;
-
     const scrollHandler = (_event: Event) => {
       const $header = headerRef.current;
       if (!$header) return;
 
       let isScrollToUp = false;
       const headerHeight = $header.offsetHeight;
-      const scrollTop = $layout.scrollTop;
+      const scrollY = window.scrollY;
 
-      if (prevLayoutscrollTop.current > scrollTop) isScrollToUp = true;
-      prevLayoutscrollTop.current = scrollTop;
-      if (scrollTop < headerHeight) {
-        setIsScrollTop(true);
+      if (prevLayoutscrollY.current > scrollY) isScrollToUp = true;
+      prevLayoutscrollY.current = scrollY;
+      if (scrollY < headerHeight) {
+        setIsScrollY(true);
         setVisualState("visible");
       } else {
-        setIsScrollTop(false);
+        setIsScrollY(false);
         if (isScrollToUp) setVisualState("visible");
         else setVisualState("hidden");
       }
     };
 
-    $layout.addEventListener("scroll", scrollHandler);
+    window.addEventListener("scroll", scrollHandler);
     return () => {
-      $layout.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener("scroll", scrollHandler);
     };
-  }, [layoutId]);
+  }, []);
 
   return (
     <>

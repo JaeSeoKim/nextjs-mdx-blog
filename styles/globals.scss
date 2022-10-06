@@ -11,6 +11,24 @@
   [data-tailwind-camouflage="figcaption"] {
     @apply block text-center;
   }
+
+  :is(h1, h2, h3, h4, h5, h6) {
+    @apply relative;
+
+    & > a.no-prose {
+      text-decoration: none;
+      &::before {
+        content: "§";
+        @apply inline md:hidden ml-2;
+      }
+    }
+
+    &:hover {
+      & > a.no-prose::before {
+        @apply inline;
+      }
+    }
+  }
 }
 
 @media not all and (min-resolution: 0.001dpcm) {

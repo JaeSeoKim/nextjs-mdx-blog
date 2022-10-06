@@ -11,7 +11,9 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import theme from "shiki/themes/one-dark-pro.json";
 import { remarkCodeHike } from "@code-hike/mdx";
 import { StaticImageData } from "next/image";
+import { compileSync } from "@mdx-js/mdx";
 import getStaticImageDataWithPlaciceholder from "./getStaticImageDataWithPlaciceholder";
+import rehypeTOC, { RehypeTOCOptionsType } from "../plugins/rehypeTOC";
 
 export const ROOT = process.cwd();
 export const POSTS_PATH = path.join(process.cwd(), "_content/posts");
@@ -64,7 +66,30 @@ export async function getPostBySlug(slug: string) {
       },
     ],
   ];
-  const rehypelugins = [rehypeSlug, rehypeAutolinkHeadings];
+
+  const TOCRef: RehypeTOCOptionsType["ref"] = {
+    current: [],
+  };
+
+  const rehypelugins = [
+    rehypeSlug,
+    [
+      rehypeAutolinkHeadings,
+      {
+        behavior: "append",
+        content: {
+          type: "text",
+        },
+        properties: { ariaHidden: true, tabIndex: -1, class: "no-prose" },
+      },
+    ],
+    [
+      rehypeTOC,
+      {
+        ref: TOCRef,
+      },
+    ],
+  ];
 
   if (process.platform === "win32") {
     process.env.ESBUILD_BINARY_PATH = path.join(
@@ -127,6 +152,7 @@ export async function getPostBySlug(slug: string) {
           ...(options.remarkPlugins ?? []),
           ...remarkPlugins,
         ];
+        // @ts-ignore
         options.rehypePlugins = [
           ...(options.rehypePlugins ?? []),
           ...rehypelugins,
@@ -146,8 +172,10 @@ export async function getPostBySlug(slug: string) {
     );
   }
   frontmatter.date = filepath.match(DATE_REGEX)![0];
+
   return {
     ...post,
     frontmatter,
+    toc: TOCRef.current,
   };
 }

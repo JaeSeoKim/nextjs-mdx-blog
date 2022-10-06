@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { getPostBySlug, getAllPosts } from "../../lib/utils/blogPostsApi";
 import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from "next";
@@ -12,6 +12,7 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   const {
     code,
     frontmatter: { date, tags, title, image },
+    toc,
   } = post;
   const Component = useMemo(() => getMDXComponent(code), [code]);
 

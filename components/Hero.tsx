@@ -3,7 +3,6 @@ import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import Image, { StaticImageData } from "next/future/image";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { borderColor } from "../styles/common.styles";
-import { useLayoutContext } from "./Layout";
 
 export type HeroProps = {
   children?: ReactNode | undefined;
@@ -11,7 +10,6 @@ export type HeroProps = {
 };
 
 const Hero: React.FC<HeroProps> = ({ image, children }) => {
-  const { layoutRef } = useLayoutContext();
   const targetRef = useRef<HTMLDivElement>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const opacity = useMotionValue(1);
@@ -19,8 +17,6 @@ const Hero: React.FC<HeroProps> = ({ image, children }) => {
 
   useEffect(() => {
     if (!image) return;
-    const $layout = layoutRef.current;
-    if (!$layout) return;
 
     const handler = () => {
       const $target = targetRef.current;
@@ -28,18 +24,18 @@ const Hero: React.FC<HeroProps> = ({ image, children }) => {
 
       const targetHeight = $target.offsetHeight;
 
-      if (targetHeight < $layout.scrollTop) {
+      if (targetHeight < window.scrollY) {
         return opacity.set(0.5);
       }
-      return opacity.set(1 - $layout.scrollTop / targetHeight / 2);
+      return opacity.set(1 - window.scrollY / targetHeight / 2);
     };
 
     handler();
-    $layout.addEventListener("scroll", handler);
+    window.addEventListener("scroll", handler);
     return () => {
-      $layout.removeEventListener("scroll", handler);
+      window.removeEventListener("scroll", handler);
     };
-  }, [image, layoutRef, opacity]);
+  }, [image, opacity]);
 
   return (
     <div

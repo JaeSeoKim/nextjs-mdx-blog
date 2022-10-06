@@ -1,83 +1,45 @@
 import classNames from "classnames";
-import {
-  createContext,
-  PropsWithChildren,
-  RefObject,
-  useContext,
-  useId,
-  useRef,
-} from "react";
+import { PropsWithChildren } from "react";
 import { author, github } from "../blog.config";
 import { borderColor } from "../styles/common.styles";
 import Header from "./Header";
 import Hero, { HeroProps, HeroSibling } from "./Hero";
-
-export type LayoutContextType = {
-  layoutRef: RefObject<HTMLDivElement>;
-  layoutId: string;
-};
-
-export const LayoutContext = createContext<LayoutContextType>(
-  null as unknown as LayoutContextType,
-);
-
-export const useLayoutContext = () => {
-  const context = useContext(LayoutContext);
-  return context;
-};
 
 export type LayoutProps = PropsWithChildren<{
   hero?: HeroProps;
 }>;
 
 const Layout: React.FC<LayoutProps> = ({ hero, children }) => {
-  const layoutRef = useRef<HTMLDivElement>(null);
-  const layoutId = useId();
   return (
-    <LayoutContext.Provider
-      value={{
-        layoutRef,
-        layoutId,
-      }}
-    >
-      <div
-        id={layoutId}
-        ref={layoutRef}
+    <div className={classNames("flex flex-col", "text-black dark:text-white")}>
+      <Header isScrollTopTransparent={!!hero?.image} />
+      <main className="flex flex-col grow">
+        {hero ? (
+          <>
+            <Hero {...hero} />
+            <HeroSibling>{children}</HeroSibling>
+          </>
+        ) : (
+          children
+        )}
+      </main>
+      <footer
         className={classNames(
-          "relative min-h-screen max-h-screen overflow-y-auto overflow-x-hidden",
-          "flex flex-col",
-          "text-black dark:text-white",
+          "flex w-full items-center justify-center mt-4",
+          "border-t",
+          borderColor,
         )}
       >
-        <Header isScrollTopTransparent={!!hero?.image} />
-        <main className="flex flex-col grow">
-          {hero ? (
-            <>
-              <Hero {...hero} />
-              <HeroSibling>{children}</HeroSibling>
-            </>
-          ) : (
-            children
-          )}
-        </main>
-        <footer
-          className={classNames(
-            "flex w-full items-center justify-center mt-4",
-            "border-t",
-            borderColor,
-          )}
+        <a
+          className="flex items-center justify-center gap-2 py-4 text-sm"
+          href={github}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <a
-            className="flex items-center justify-center gap-2 py-4 text-sm"
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Copyright ©{author}
-          </a>
-        </footer>
-      </div>
-    </LayoutContext.Provider>
+          Copyright ©{author}
+        </a>
+      </footer>
+    </div>
   );
 };
 

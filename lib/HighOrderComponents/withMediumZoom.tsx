@@ -1,5 +1,4 @@
 import { CSSProperties, ElementType, useRef, useState } from "react";
-import { useLayoutContext } from "../../components/Layout";
 import usePrefersReducedMotion from "../hooks/useReducedMotion";
 
 type withMediumZoomOptionType<C extends ElementType> = {
@@ -22,7 +21,6 @@ export default function withMediumZoom<C extends ElementType, _Props>(
   } = options || {};
 
   const MediumZoom: React.FC<_Props> = ({ ...props }) => {
-    const { layoutRef } = useLayoutContext();
     const Container = as;
     const containerRef = useRef<HTMLDivElement>(null);
     const [isOpened, setIsOpened] = useState(false);
@@ -33,33 +31,32 @@ export default function withMediumZoom<C extends ElementType, _Props>(
       : options?.animationDuration || 300;
 
     const handleImageZoom = () => {
-      const $layout = layoutRef.current;
-      if (!$layout || !containerRef.current || isOpened) return;
+      if (!containerRef.current || isOpened) return;
 
       const containerRect = containerRef.current.getBoundingClientRect();
       let clientHeight = containerRect.height;
       let clientWidth = containerRect.width;
 
-      const wPrim = ($layout.offsetWidth - containerRect.width) / 2;
-      const hPrim = ($layout.offsetHeight - containerRect.height) / 2;
+      const wPrim = (window.innerWidth - containerRect.width) / 2;
+      const hPrim = (window.innerHeight - containerRect.height) / 2;
       const cL = containerRect.left;
       const cT = containerRect.top;
 
       const zoomPerc = zoomPercentage / 100;
       if (
-        (($layout.offsetHeight * zoomPerc) / clientHeight) * clientWidth >=
-        $layout.offsetWidth
+        ((window.innerHeight * zoomPerc) / clientHeight) * clientWidth >=
+        window.innerWidth
       ) {
         containerRef.current.style.transform = `translate(${wPrim - cL}px,${
           hPrim - cT
-        }px) scale(${($layout.offsetWidth * zoomPerc) / clientWidth})`;
+        }px) scale(${(window.innerWidth * zoomPerc) / clientWidth})`;
       } else {
         containerRef.current.style.transform = `translate(${wPrim - cL}px,${
           hPrim - cT
-        }px) scale(${($layout.offsetHeight * zoomPerc) / clientHeight})`;
+        }px) scale(${(window.innerHeight * zoomPerc) / clientHeight})`;
       }
 
-      $layout.addEventListener("scroll", closeWrapper, { once: true });
+      window.addEventListener("scroll", closeWrapper, { once: true });
 
       setIsOpened(true);
     };
