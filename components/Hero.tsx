@@ -11,7 +11,6 @@ export type HeroProps = {
 
 const Hero: React.FC<HeroProps> = ({ image, children }) => {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const opacity = useMotionValue(1);
   const brightness = useMotionTemplate`brightness(${opacity})`;
 
@@ -55,34 +54,16 @@ const Hero: React.FC<HeroProps> = ({ image, children }) => {
             msFilter: brightness,
           }}
         >
-          <div
-            aria-hidden
+          <Image
+            src={image.src}
+            alt=""
             className={classNames(
-              "brightness-75 w-full h-full transition-[filter,transform] motion-reduce:transition-none duration-300 ease-linear",
-              isImageLoaded ? "scale-100 blur-0" : "scale-110 blur-sm",
+              "object-cover transition-[opacity] motion-reduce:transition-none duration-300 ease-linear",
             )}
-            style={{
-              willChange: "transform,filter",
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={image.blurDataURL}
-              alt=""
-              className={"absolute top-0 left-0 w-full h-full object-cover"}
-            />
-            {/* eslint-disable-next-line jsx-a11y/alt-text */}
-            <Image
-              src={image.src}
-              alt=""
-              className={classNames(
-                "object-cover transition-[opacity] motion-reduce:transition-none duration-300 ease-linear",
-                isImageLoaded ? "opacity-100" : "opacity-0",
-              )}
-              onLoadingComplete={() => setIsImageLoaded(true)}
-              fill
-            />
-          </div>
+            blurDataURL={image.blurDataURL}
+            placeholder="blur"
+            fill
+          />
           <div className={"absolute top-0 left-0 w-full h-full text-white"}>
             {children}
           </div>
@@ -104,7 +85,7 @@ export const HeroSibling: React.FC<HeroSiblingProps> = ({ children }) => {
   return (
     <div
       className={classNames(
-        "z-[1] pt-8 bg-white dark:bg-neutral-900",
+        "z-[1] transform-gpu pt-8 bg-white dark:bg-neutral-900",
         "border-t",
         borderColor,
       )}

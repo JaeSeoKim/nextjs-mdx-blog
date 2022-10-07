@@ -32,7 +32,7 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         ),
       }}
     >
-      <div className="max-w-screen-md px-2 mx-auto">
+      <div className="max-w-screen-md px-4 mx-auto">
         <article
           className={
             "prose prose-sm md:prose-base lg:prose-lg dark:prose-invert w-full max-w-none"

@@ -27,8 +27,9 @@ const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
     "visible",
   );
   const [navState, setNavState] = useState<NavState>("closed");
+  const isNavOpen = navState !== "closed";
   const headerStyleType: "transparent" | "gradient" = (() => {
-    if (isScrollTopTransparent && !(navState !== "closed") && isScollTop) {
+    if (isScrollTopTransparent && !isNavOpen && isScollTop) {
       return "transparent";
     }
     return "gradient";
@@ -66,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
     <>
       <motion.header
         ref={headerRef}
-        animate={navState !== "closed" ? "visible" : visualState}
+        animate={isNavOpen ? "visible" : visualState}
         variants={{
           visible: {
             y: 0,
@@ -150,7 +151,7 @@ const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
             </div>
           </div>
         </motion.div>
-        {navState !== "closed" && (
+        {isNavOpen && (
           <SideBar
             state={navState}
             setState={setNavState}

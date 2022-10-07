@@ -11,7 +11,12 @@ export type LayoutProps = PropsWithChildren<{
 
 const Layout: React.FC<LayoutProps> = ({ hero, children }) => {
   return (
-    <div className={classNames("flex flex-col", "text-black dark:text-white")}>
+    <div
+      className={classNames(
+        "flex flex-col min-h-screen",
+        "text-black dark:text-white",
+      )}
+    >
       <Header isScrollTopTransparent={!!hero?.image} />
       <main className="flex flex-col grow">
         {hero ? (
