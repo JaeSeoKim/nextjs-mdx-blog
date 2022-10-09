@@ -5,7 +5,9 @@ const withImageFigureCaption = (ImageComponent: React.FC<ImageProps>) => {
     if (alt) {
       return (
         <span data-tailwind-camouflage="figure">
-          <ImageComponent {...props} alt={alt} />
+          <span className="flex justify-center items-center">
+            <ImageComponent {...props} alt={alt} />
+          </span>
           <span aria-hidden={true} data-tailwind-camouflage="figcaption">
             {alt}
           </span>
