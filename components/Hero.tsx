@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import Image, { StaticImageData } from "next/future/image";
+import Image, { StaticImageData } from "next/image";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { borderColor } from "../styles/common.styles";
 
@@ -58,11 +58,12 @@ const Hero: React.FC<HeroProps> = ({ image, children }) => {
             src={image.src}
             alt=""
             className={classNames(
-              "object-cover transition-[opacity] motion-reduce:transition-none duration-300 ease-linear",
+              "transition-[opacity] motion-reduce:transition-none duration-300 ease-linear",
             )}
             blurDataURL={image.blurDataURL}
             placeholder="blur"
-            fill
+            objectFit="cover"
+            layout="fill"
           />
           <div className={"absolute top-0 left-0 w-full h-full text-white"}>
             {children}
