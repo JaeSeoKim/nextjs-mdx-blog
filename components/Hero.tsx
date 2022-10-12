@@ -9,7 +9,11 @@ export type HeroProps = {
   image?: StaticImageData;
 };
 
-const Hero: React.FC<HeroProps> = ({ image, children }) => {
+type ParentComposition = {
+  Sibling: typeof Sibling;
+};
+
+const Hero: React.FC<HeroProps> & ParentComposition = ({ image, children }) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const opacity = useMotionValue(1);
   const brightness = useMotionTemplate`brightness(${opacity})`;
@@ -63,26 +67,31 @@ const Hero: React.FC<HeroProps> = ({ image, children }) => {
             blurDataURL={image.blurDataURL}
             placeholder="blur"
             objectFit="cover"
+            objectPosition="center"
             layout="fill"
           />
-          <div className={"absolute top-0 left-0 w-full h-full text-white"}>
-            {children}
+          <div className={"absolute top-0 left-0 w-full h-full text-white "}>
+            <div className="flex flex-col justify-end w-full h-full max-w-screen-lg px-4 pb-12 md:pb-16 mx-auto">
+              {children}
+            </div>
           </div>
         </motion.div>
       ) : (
         <div className={"w-full h-full text-black dark:text-white"}>
-          {children}
+          <div className="flex flex-col justify-end w-full h-full max-w-screen-lg px-4 pb-12 md:pb-16 mx-auto">
+            {children}
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export type HeroSiblingProps = {
+export type SiblingProps = {
   children?: ReactNode | undefined;
 };
 
-export const HeroSibling: React.FC<HeroSiblingProps> = ({ children }) => {
+const Sibling: React.FC<SiblingProps> = ({ children }) => {
   return (
     <div
       className={classNames(
@@ -95,5 +104,7 @@ export const HeroSibling: React.FC<HeroSiblingProps> = ({ children }) => {
     </div>
   );
 };
+
+Hero.Sibling = Sibling;
 
 export default Hero;

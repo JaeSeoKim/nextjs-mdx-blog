@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 import { author, github } from "../blog.config";
 import { borderColor } from "../styles/common.styles";
 import Header from "./Header";
-import Hero, { HeroProps, HeroSibling } from "./Hero";
+import Hero, { HeroProps } from "./Hero";
 
 export type LayoutProps = PropsWithChildren<{
   hero?: HeroProps;
@@ -22,7 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ hero, children }) => {
         {hero ? (
           <>
             <Hero {...hero} />
-            <HeroSibling>{children}</HeroSibling>
+            <Hero.Sibling>{children}</Hero.Sibling>
           </>
         ) : (
           children

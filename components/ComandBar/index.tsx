@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { KBarPortal, KBarPositioner } from "kbar";
+import { KBarPortal, KBarPositioner, useKBar } from "kbar";
 import { KBarSearch } from "./KBarSearch";
 import { blurBg, borderColor } from "../../styles/common.styles";
 import SearchIcon from "../Header/SearchIcon";
@@ -22,7 +22,7 @@ const ComandBar: React.FC = () => {
           <div
             className={classNames(
               "flex flex-col",
-              "w-[calc(100vw_-_16px)] md:w-[40rem] overflow-hidden overflow-y-auto",
+              "w-[calc(100vw_-_16px)] md:w-[40rem]",
               blurBg,
               "border",
               borderColor,
