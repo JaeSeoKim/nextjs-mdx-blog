@@ -1,15 +1,18 @@
 import classNames from "classnames";
 import { PropsWithChildren } from "react";
 import { author, github } from "../blog.config";
+import { TOCItem } from "../lib/plugins/rehypeTOC";
 import { borderColor } from "../styles/common.styles";
 import Header from "./Header";
 import Hero, { HeroProps } from "./Hero";
+import TOC from "./TOC";
 
 export type LayoutProps = PropsWithChildren<{
   hero?: HeroProps;
+  toc?: TOCItem[] | undefined;
 }>;
 
-const Layout: React.FC<LayoutProps> = ({ hero, children }) => {
+const Layout: React.FC<LayoutProps> = ({ hero, toc, children }) => {
   return (
     <div
       className={classNames(
@@ -22,10 +25,12 @@ const Layout: React.FC<LayoutProps> = ({ hero, children }) => {
         {hero ? (
           <>
             <Hero {...hero} />
-            <Hero.Sibling>{children}</Hero.Sibling>
+            <Hero.Sibling>
+              <TOC data={toc}>{children}</TOC>
+            </Hero.Sibling>
           </>
         ) : (
-          children
+          <TOC data={toc}>{children}</TOC>
         )}
       </main>
       <footer

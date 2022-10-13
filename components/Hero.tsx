@@ -95,7 +95,7 @@ const Sibling: React.FC<SiblingProps> = ({ children }) => {
   return (
     <div
       className={classNames(
-        "z-[1] transform-gpu pt-8 bg-white dark:bg-neutral-900",
+        "z-[1] transform-gpu pt-4 bg-white dark:bg-neutral-900",
         "border-t",
         borderColor,
       )}

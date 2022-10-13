@@ -27,18 +27,15 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           </>
         ),
       }}
+      toc={toc}
     >
-      <TOC data={toc}>
-        <div className="max-w-screen-md px-4 mx-auto">
-          <article
-            className={
-              "prose prose-sm md:prose-base lg:prose-lg dark:prose-invert w-full max-w-none"
-            }
-          >
-            <Component components={markdownComponents} />
-          </article>
-        </div>
-      </TOC>
+      <article
+        className={
+          "prose prose-base lg:prose-lg dark:prose-invert w-full max-w-none"
+        }
+      >
+        <Component components={markdownComponents} />
+      </article>
     </Layout>
   );
 };
