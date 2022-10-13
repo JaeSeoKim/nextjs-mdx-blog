@@ -83,6 +83,7 @@ const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
         className={"fixed top-0 left-0 z-10 w-full"}
       >
         <motion.div
+          initial={[headerStyleType, `${theme}-${headerStyleType}`]}
           animate={[headerStyleType, `${theme}-${headerStyleType}`]}
           variants={{
             ["transparent"]: {
