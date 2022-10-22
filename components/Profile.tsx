@@ -2,11 +2,13 @@ import classNames from "classnames";
 import Image from "next/image";
 import { author } from "../blog.config";
 import { borderColor } from "../styles/common.styles";
-import profileImage from "../_content/profile.png";
+import { useLayoutContext } from "./Layout";
 
 export type ProfileProps = {};
 
 const Profile: React.FC<ProfileProps> = ({}) => {
+  const { profileImage } = useLayoutContext();
+
   return (
     <div
       className={classNames(

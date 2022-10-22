@@ -5,40 +5,8 @@ import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from "next";
 import markdownComponents from "../../components/markdownComponents";
 import Layout from "../../components/Layout";
 import TOC from "../../components/TOC";
-
-const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  post,
-}) => {
-  const {
-    code,
-    frontmatter: { date, tags, title, image },
-    toc,
-  } = post;
-  const Component = useMemo(() => getMDXComponent(code), [code]);
-
-  return (
-    <Layout
-      hero={{
-        image,
-        children: (
-          <>
-            <h1 className="text-4xl font-bold">{title}</h1>
-            <p className="text-sm font-light mt-4">{date}</p>
-          </>
-        ),
-      }}
-      toc={toc}
-    >
-      <article
-        className={
-          "prose prose-base lg:prose-lg dark:prose-invert w-full max-w-none"
-        }
-      >
-        <Component components={markdownComponents} />
-      </article>
-    </Layout>
-  );
-};
+import getStaticImageDataWithPlaciceholder from "../../lib/utils/getStaticImageDataWithPlaciceholder";
+import { images } from "../../blog.config";
 
 export async function getStaticProps({
   params,
@@ -48,9 +16,15 @@ export async function getStaticProps({
   const { slug } = params!;
   const post = await getPostBySlug(slug);
 
+  const profileImage = await getStaticImageDataWithPlaciceholder(
+    images.profileImage,
+    images.options,
+  );
+
   return {
     props: {
       post,
+      profileImage,
     },
   };
 }
@@ -69,5 +43,41 @@ export async function getStaticPaths() {
     fallback: false,
   };
 }
+
+const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  post,
+  profileImage,
+}) => {
+  const {
+    code,
+    frontmatter: { date, tags, title, image },
+    toc,
+  } = post;
+  const Component = useMemo(() => getMDXComponent(code), [code]);
+
+  return (
+    <Layout
+      profileImage={profileImage}
+      hero={{
+        image,
+        children: (
+          <>
+            <h1 className="text-4xl font-bold drop-shadow-md">{title}</h1>
+            <p className="text-sm font-light mt-4 drop-shadow-md">{date}</p>
+          </>
+        ),
+      }}
+      toc={toc}
+    >
+      <article
+        className={
+          "prose prose-base lg:prose-lg dark:prose-invert w-full max-w-none"
+        }
+      >
+        <Component components={markdownComponents} />
+      </article>
+    </Layout>
+  );
+};
 
 export default Post;

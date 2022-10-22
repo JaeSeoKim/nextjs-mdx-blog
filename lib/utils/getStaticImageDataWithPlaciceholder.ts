@@ -14,6 +14,7 @@ const NEXT_OUTDIR = path.join(ROOT, ".next/static/media");
 
 const getStaticImageDataWithPlaciceholder: IgetStaticImageDataWithPlaciceholder =
   async (src, options = {}) => {
+    src = path.join(process.cwd(), src);
     const fileBuffer = fs.readFileSync(src);
     const { name, ext } = path.parse(src);
     const {
@@ -23,6 +24,7 @@ const getStaticImageDataWithPlaciceholder: IgetStaticImageDataWithPlaciceholder 
     const outputFileName = `${name}.${fileBuffer
       .toString("base64url")
       .substring(0, 8)}${ext}`;
+    fs.mkdirSync(NEXT_OUTDIR, { recursive: true });
     fs.writeFileSync(path.join(NEXT_OUTDIR, outputFileName), fileBuffer);
     return {
       src: path.join(NEXT_PULICPATH, outputFileName),

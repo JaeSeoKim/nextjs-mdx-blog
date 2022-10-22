@@ -1,8 +1,19 @@
 import { LinkProps } from "next/link";
+import { IGetPlaiceholderOptions } from "plaiceholder";
 import { ReactElement } from "react";
 
 export const author: string = "JaeSeoKim";
-export const github: string = "https://github.com/JaeSeoKim";
+export const github: string = "JaeSeoKim";
+
+export const images: ImagesType = {
+  homeHeroImage: "_content/emile-perron-xrVDYZRGdw4-unsplash.jpg",
+  profileImage: "_content/profile.png",
+  options: {
+    removeAlpha: false,
+    size: 60,
+  },
+};
+
 export const header: headerType = {
   title: (
     <>
@@ -19,6 +30,12 @@ export const header: headerType = {
       href: "/about",
     },
   ],
+};
+
+export type ImagesType = {
+  homeHeroImage: string;
+  profileImage: string;
+  options: Omit<IGetPlaiceholderOptions, "dir">;
 };
 
 export type headerType = {

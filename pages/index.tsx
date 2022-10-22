@@ -5,21 +5,22 @@ import type {
   GetStaticPathsContext,
 } from "next";
 import Link from "next/link";
-import path from "path";
 import Layout from "../components/Layout";
 import Profile from "../components/Profile";
 import { getAllPosts } from "../lib/utils/blogPostsApi";
 import getStaticImageDataWithPlaciceholder from "../lib/utils/getStaticImageDataWithPlaciceholder";
 import { borderColor } from "../styles/common.styles";
+import { images } from "../blog.config";
 
 export async function getStaticProps(_ctx: GetStaticPathsContext) {
   const posts = await getAllPosts();
   const heroImage = await getStaticImageDataWithPlaciceholder(
-    path.join(process.cwd(), "_content/emile-perron-xrVDYZRGdw4-unsplash.jpg"),
-    {
-      removeAlpha: false,
-      size: 32,
-    },
+    images.homeHeroImage,
+    images.options,
+  );
+  const profileImage = await getStaticImageDataWithPlaciceholder(
+    images.profileImage,
+    images.options,
   );
   return {
     props: {
@@ -27,6 +28,7 @@ export async function getStaticProps(_ctx: GetStaticPathsContext) {
       hero: {
         image: heroImage,
       },
+      profileImage,
     },
   };
 }
@@ -34,17 +36,19 @@ export async function getStaticProps(_ctx: GetStaticPathsContext) {
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   posts,
   hero,
+  profileImage,
 }) => {
   return (
     <Layout
+      profileImage={profileImage}
       hero={{
         image: hero.image,
         children: (
           <>
-            <h1 className="text-xl md:text-2xl font-bold">
+            <h1 className="text-xl md:text-2xl font-bold drop-shadow-md">
               JaeSeoKim의 개발 블로그
             </h1>
-            <span className="text-sm md:text-base mt-2 md:mt-4">
+            <span className="text-sm md:text-base mt-2 md:mt-4 drop-shadow-md">
               어제의 나보다 더 성장 하기 위해 기록합니다.
             </span>
           </>
