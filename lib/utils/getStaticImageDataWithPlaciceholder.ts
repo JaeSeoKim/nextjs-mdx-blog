@@ -14,7 +14,6 @@ const NEXT_OUTDIR = path.join(ROOT, ".next/static/media");
 
 const getStaticImageDataWithPlaciceholder: IgetStaticImageDataWithPlaciceholder =
   async (src, options = {}) => {
-    src = path.join(process.cwd(), src);
     const fileBuffer = fs.readFileSync(src);
     const { name, ext } = path.parse(src);
     const {

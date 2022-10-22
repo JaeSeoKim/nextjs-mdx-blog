@@ -11,15 +11,16 @@ import { getAllPosts } from "../lib/utils/blogPostsApi";
 import getStaticImageDataWithPlaciceholder from "../lib/utils/getStaticImageDataWithPlaciceholder";
 import { borderColor } from "../styles/common.styles";
 import { images } from "../blog.config";
+import path from "path";
 
 export async function getStaticProps(_ctx: GetStaticPathsContext) {
   const posts = await getAllPosts();
   const heroImage = await getStaticImageDataWithPlaciceholder(
-    images.homeHeroImage,
+    path.join(process.cwd(), images.homeHeroImage),
     images.options,
   );
   const profileImage = await getStaticImageDataWithPlaciceholder(
-    images.profileImage,
+    path.join(process.cwd(), images.profileImage),
     images.options,
   );
   return {

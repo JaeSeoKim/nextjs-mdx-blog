@@ -11,7 +11,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import theme from "shiki/themes/one-dark-pro.json";
 import { remarkCodeHike } from "@code-hike/mdx";
 import { StaticImageData } from "next/image";
-import { compileSync } from "@mdx-js/mdx";
 import getStaticImageDataWithPlaciceholder from "./getStaticImageDataWithPlaciceholder";
 import rehypeTOC, { RehypeTOCOptionsType } from "../plugins/rehypeTOC";
 

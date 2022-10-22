@@ -7,6 +7,7 @@ import Layout from "../../components/Layout";
 import TOC from "../../components/TOC";
 import getStaticImageDataWithPlaciceholder from "../../lib/utils/getStaticImageDataWithPlaciceholder";
 import { images } from "../../blog.config";
+import path from "path";
 
 export async function getStaticProps({
   params,
@@ -17,7 +18,7 @@ export async function getStaticProps({
   const post = await getPostBySlug(slug);
 
   const profileImage = await getStaticImageDataWithPlaciceholder(
-    images.profileImage,
+    path.join(process.cwd(), images.profileImage),
     images.options,
   );
 
