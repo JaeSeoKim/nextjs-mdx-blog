@@ -80,39 +80,41 @@ const DesktopTOC: React.FC<DesktopTOCProps> = ({ data }) => {
         )}
       >
         {data.map(item => (
-          <Link href={`#${item.id}`} key={`toc-${item.id}`}>
-            <a className={"relative mt-1 pl-2 group"}>
-              {item.id === currentId && (
-                <motion.span
-                  aria-label="hidden"
-                  layoutId="toc-active"
-                  transition={{
-                    layout: {
-                      duration: shouldReduceMotion ? 0 : 0.3,
-                    },
-                  }}
-                  className="absolute left-0 top-0 bottom-0 w-[4px] rounded-full"
-                  style={{
-                    backgroundImage: isDarkMode
-                      ? `linear-gradient(to bottom, ${header.gradient.dark.to}, ${header.gradient.dark.from})`
-                      : `linear-gradient(to bottom, ${header.gradient.light.to}, ${header.gradient.light.from})`,
-                  }}
-                />
-              )}
-              <span
-                className={classNames(
-                  "text-base transition-opacity motion-reduce:transition-none duration-150 opacity-75 group-hover:opacity-100",
-                  {
-                    ["opacity-100"]: item.id === currentId,
+          <Link
+            href={`#${item.id}`}
+            key={`toc-${item.id}`}
+            className={"relative mt-1 pl-2 group"}
+          >
+            {item.id === currentId && (
+              <motion.span
+                aria-label="hidden"
+                layoutId="toc-active"
+                transition={{
+                  layout: {
+                    duration: shouldReduceMotion ? 0 : 0.3,
                   },
-                )}
-                style={{
-                  marginLeft: `calc(${item.rank - 1} * 0.5rem)`,
                 }}
-              >
-                {item.content}
-              </span>
-            </a>
+                className="absolute left-0 top-0 bottom-0 w-[4px] rounded-full"
+                style={{
+                  backgroundImage: isDarkMode
+                    ? `linear-gradient(to bottom, ${header.gradient.dark.to}, ${header.gradient.dark.from})`
+                    : `linear-gradient(to bottom, ${header.gradient.light.to}, ${header.gradient.light.from})`,
+                }}
+              />
+            )}
+            <span
+              className={classNames(
+                "text-base transition-opacity motion-reduce:transition-none duration-150 opacity-75 group-hover:opacity-100",
+                {
+                  ["opacity-100"]: item.id === currentId,
+                },
+              )}
+              style={{
+                marginLeft: `calc(${item.rank - 1} * 0.5rem)`,
+              }}
+            >
+              {item.content}
+            </span>
           </Link>
         ))}
       </div>

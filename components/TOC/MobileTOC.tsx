@@ -97,21 +97,21 @@ const MobileTOC: React.FC<MobileTOCProps> = ({ data }) => {
             }}
           >
             {data.map(item => (
-              <Link href={`#${item.id}`} key={`toc-${item.id}`}>
-                <a
-                  className={
-                    "relative mt-1 pl-2 transition-opacity motion-reduce:transition-none duration-150 opacity-75 hover:opacity-100"
-                  }
+              <Link
+                href={`#${item.id}`}
+                key={`toc-${item.id}`}
+                className={
+                  "relative mt-1 pl-2 transition-opacity motion-reduce:transition-none duration-150 opacity-75 hover:opacity-100"
+                }
+              >
+                <span
+                  className={"text-base"}
+                  style={{
+                    marginLeft: `calc(${item.rank - 1} * 0.5rem)`,
+                  }}
                 >
-                  <span
-                    className={"text-base"}
-                    style={{
-                      marginLeft: `calc(${item.rank - 1} * 0.5rem)`,
-                    }}
-                  >
-                    {item.content}
-                  </span>
-                </a>
+                  {item.content}
+                </span>
               </Link>
             ))}
           </motion.div>

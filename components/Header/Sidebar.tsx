@@ -71,18 +71,15 @@ const Sidebar: React.FC<SidebarProps> = ({ items, state, setState }) => {
               key={`sidebar-nav-item-${index}-${item.label}-${item.href}`}
               href={item.href}
               passHref
+              className={classNames(
+                "p-4",
+                "text-xl font-semibold",
+                hoverBgColor,
+                "border-b",
+                borderColor,
+              )}
             >
-              <a
-                className={classNames(
-                  "p-4",
-                  "text-xl font-semibold",
-                  hoverBgColor,
-                  "border-b",
-                  borderColor,
-                )}
-              >
-                {item.label}
-              </a>
+              {item.label}
             </Link>
           ))}
         </div>

@@ -30,10 +30,9 @@ const Image: React.FC<ImageProps> = ({ ..._props }) => {
   return (
     <NextImage
       src={src!}
-      alt={alt}
+      alt={alt || ""}
       width={width}
       height={height}
-      layout={"intrinsic"}
       placeholder="blur"
       blurDataURL={blurDataURL}
       {...props}

@@ -125,9 +125,7 @@ const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
               </button>
             </div>
             <h1 className="flex text-lg drop-shadow dark:shadow-neutral-900">
-              <Link href="/">
-                <a>{header.title}</a>
-              </Link>
+              <Link href="/">{header.title}</Link>
             </h1>
             <div className="flex items-center">
               <nav className="hidden md:flex items-center">
@@ -135,8 +133,9 @@ const Header: React.FC<HeaderProps> = ({ isScrollTopTransparent }) => {
                   <Link
                     href={item.href}
                     key={`r-nav-item-${index}-${item.label}-${item.href}`}
+                    className={"mr-4 hover:opacity-75"}
                   >
-                    <a className={"mr-4 hover:opacity-75"}>{item.label}</a>
+                    {item.label}
                   </Link>
                 ))}
                 <DarkModeButton className="-ml-2" />

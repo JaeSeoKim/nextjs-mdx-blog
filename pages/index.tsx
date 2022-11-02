@@ -59,18 +59,18 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Profile />
       <div className="flex flex-1 flex-col items-center justify-center max-w-screen-md w-full mx-auto px-4">
         {posts.map(({ slug, frontMatter }, index) => (
-          <Link href={`/posts/${slug}`} key={slug}>
-            <a
-              className={classNames(
-                "w-full rounded-xl p-6 text-left",
-                "border",
-                borderColor,
-                { "mt-6": index !== 0 },
-              )}
-            >
-              <h3 className="text-2xl font-bold">{frontMatter.title}</h3>
-              <p className="mt-4 text-xl">{frontMatter.date}</p>
-            </a>
+          <Link
+            href={`/posts/${slug}`}
+            key={slug}
+            className={classNames(
+              "w-full rounded-xl p-6 text-left",
+              "border",
+              borderColor,
+              { "mt-6": index !== 0 },
+            )}
+          >
+            <h3 className="text-2xl font-bold">{frontMatter.title}</h3>
+            <p className="mt-4 text-xl">{frontMatter.date}</p>
           </Link>
         ))}
       </div>
