@@ -31,6 +31,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
           blurDataURL={profileImage.blurDataURL}
           alt={`${author}'s profile`}
           placeholder="blur"
+          priority
         />
       </div>
       <div className="flex flex-col justify-center items-center md:items-start md:ml-4">

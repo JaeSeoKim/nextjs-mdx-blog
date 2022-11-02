@@ -61,12 +61,10 @@ const Hero: React.FC<HeroProps> & ParentComposition = ({ image, children }) => {
           <Image
             src={image.src}
             alt=""
-            className={classNames(
-              "transition-[opacity] motion-reduce:transition-none duration-300 ease-linear",
-              "object-cover object-center",
-            )}
+            className={classNames("object-cover object-center")}
             blurDataURL={image.blurDataURL}
             placeholder="blur"
+            priority
             fill
           />
           <div className={"absolute top-0 left-0 w-full h-full text-white "}>
