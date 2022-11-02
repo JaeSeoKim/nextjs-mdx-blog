@@ -4,7 +4,6 @@ import { getPostBySlug, getAllPosts } from "../../lib/utils/blogPostsApi";
 import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from "next";
 import markdownComponents from "../../components/markdownComponents";
 import Layout from "../../components/Layout";
-import TOC from "../../components/TOC";
 import getStaticImageDataWithPlaciceholder from "../../lib/utils/getStaticImageDataWithPlaciceholder";
 import { images } from "../../blog.config";
 import path from "path";
