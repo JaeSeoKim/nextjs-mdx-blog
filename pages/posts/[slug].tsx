@@ -62,8 +62,8 @@ const Post: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         image,
         children: (
           <>
-            <h1 className="text-4xl font-bold drop-shadow-md">{title}</h1>
-            <p className="text-sm font-light mt-4 drop-shadow-md">{date}</p>
+            <h1 className="text-4xl font-bold drop-shadow-hero">{title}</h1>
+            <p className="text-sm font-light mt-4 drop-shadow-hero">{date}</p>
           </>
         ),
       }}

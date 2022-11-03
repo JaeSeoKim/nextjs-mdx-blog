@@ -15,10 +15,12 @@ import path from "path";
 
 export async function getStaticProps(_ctx: GetStaticPathsContext) {
   const posts = await getAllPosts();
+
   const heroImage = await getStaticImageDataWithPlaciceholder(
     path.join(process.cwd(), images.homeHeroImage),
     images.options,
   );
+
   const profileImage = await getStaticImageDataWithPlaciceholder(
     path.join(process.cwd(), images.profileImage),
     images.options,
@@ -27,7 +29,7 @@ export async function getStaticProps(_ctx: GetStaticPathsContext) {
     props: {
       posts: posts,
       hero: {
-        image: heroImage,
+        image: { ...heroImage },
       },
       profileImage,
     },
@@ -46,10 +48,10 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         image: hero.image,
         children: (
           <>
-            <h1 className="text-xl md:text-2xl font-bold drop-shadow-md">
+            <h1 className="text-xl md:text-2xl font-bold drop-shadow-hero">
               JaeSeoKim의 개발 블로그
             </h1>
-            <span className="text-sm md:text-base mt-2 md:mt-4 drop-shadow-md">
+            <span className="text-sm md:text-base mt-2 md:mt-4 drop-shadow-hero">
               어제의 나보다 더 성장 하기 위해 기록합니다.
             </span>
           </>

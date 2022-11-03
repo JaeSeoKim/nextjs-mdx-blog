@@ -17,6 +17,9 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      dropShadow: {
+        hero: "0 0 0.75rem rgba(0, 0, 0, 0.4)",
+      },
       typography: (theme => {
         const styles = { DEFAULT: {} };
         typographyTypes.forEach(type => {

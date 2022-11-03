@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { IoTriangle } from "react-icons/io5";
-import { header } from "../../blog.config";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { TOCItem } from "../../lib/plugins/rehypeTOC";
 import { borderColor } from "../../styles/common.styles";
+import Underline from "./Underline";
 
 export type MobileTOCProps = {
   data: TOCItem[];
@@ -56,20 +56,7 @@ const MobileTOC: React.FC<MobileTOCProps> = ({ data }) => {
           <IoTriangle className="inline" />
         </motion.span>
         <span className="relative">
-          <span
-            className="absolute hidden dark:block -left-1 -right-1 bottom-[1px] h-2 skew-y-[0.5]"
-            style={{
-              backgroundImage: `linear-gradient(to right, ${header.gradient.dark.to}, ${header.gradient.dark.from})`,
-            }}
-            aria-hidden="true"
-          />
-          <span
-            className="absolute block dark:hidden -left-1 -right-1 bottom-[1px] h-2 skew-y-[0.5]"
-            style={{
-              backgroundImage: `linear-gradient(to right, ${header.gradient.light.to}, ${header.gradient.light.from})`,
-            }}
-            aria-hidden="true"
-          />
+          <Underline />
           <span className="relative font-bold">Table Of Contents</span>
         </span>
       </div>

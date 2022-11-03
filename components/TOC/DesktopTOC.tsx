@@ -7,6 +7,7 @@ import { header } from "../../blog.config";
 import useReducedMotion from "../../lib/hooks/useReducedMotion";
 import { TOCItem } from "../../lib/plugins/rehypeTOC";
 import styles from "./TOC.module.scss";
+import Underline from "./Underline";
 
 export type DesktopTOCProps = {
   data: TOCItem[];
@@ -54,20 +55,7 @@ const DesktopTOC: React.FC<DesktopTOCProps> = ({ data }) => {
     >
       <div className="my-2">
         <div className="inline relative py-1">
-          <span
-            className="absolute hidden dark:block -left-1 -right-1 -bottom-0 h-2 skew-y-1"
-            style={{
-              backgroundImage: `linear-gradient(to right, ${header.gradient.dark.to}, ${header.gradient.dark.from})`,
-            }}
-            aria-hidden="true"
-          />
-          <span
-            className="absolute block dark:hidden -left-1 -right-1 -bottom-0 h-2 skew-y-1"
-            style={{
-              backgroundImage: `linear-gradient(to right, ${header.gradient.light.to}, ${header.gradient.light.from})`,
-            }}
-            aria-hidden="true"
-          />
+          <Underline />
           <span className="relative text-xl font-extrabold">
             Table Of Contents
           </span>

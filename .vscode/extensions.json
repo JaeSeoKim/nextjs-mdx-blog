@@ -1,8 +1,7 @@
 {
   "recommendations": [
-    "drewbourne.vscode-remark-lint",
-    "jounqin.vscode-mdx",
     "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "unifiedjs.vscode-mdx"
   ]
 }
